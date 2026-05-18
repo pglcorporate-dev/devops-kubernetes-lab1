@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mind Reader</title>
+</head>
+<body>
+
+<h1>Think of a number (1-100)</h1>
+
+<h2 id="guess">Press Start</h2>
+
+<button onclick="sendAnswer('start')">Start</button>
+<button onclick="sendAnswer('higher')">Higher</button>
+<button onclick="sendAnswer('lower')">Lower</button>
+<button onclick="sendAnswer('correct')">Correct</button>
+
+<script>
+
+async function sendAnswer(answer){
+
+    const response = await fetch("/guess", {
+        method:"POST",
+        headers: {
+            "Content-Type":"application/json"
+        },
+        body: JSON.stringify({
+            answer: answer
+        })
+    });
+
+    const data = await response.json();
+
+    document.getElementById("guess").innerText =
+        data.message;
+}
+
+</script>
+
+</body>
+</html>

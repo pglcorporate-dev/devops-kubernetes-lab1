@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: magic-number
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: magic
+  template:
+    metadata:
+      labels:
+        app: magic
+    spec:
+      containers:
+      - name: magic
+        image: magic-number:1.0
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 5000
