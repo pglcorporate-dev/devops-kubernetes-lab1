@@ -1,0 +1,18 @@
+# IaC
+/infra/                 @pglcorporate-dev
+
+# Applications
+/apps/                  @pglcorporate-dev
+
+# GitOps
+/gitops/                @pglcorporate-dev
+
+# CI/CD
+/.github/               @pglcorporate-dev
+
+# Documentation
+*.md                    @pglcorporate-dev
+/docs/                  @pglcorporate-dev
+
+# Default fallback
+*                       @pglcorporate-dev
