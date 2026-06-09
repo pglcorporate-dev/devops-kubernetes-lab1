@@ -6,8 +6,8 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/yourusername/devops-kubernetes-lab
-    targetRevision: HEAD
+    repoURL: https://github.com/pglcorporate-dev/devops-kubernetes-lab1
+    targetRevision: main
     path: manifests/magic-number
   destination:
     server: https://kubernetes.default.svc
