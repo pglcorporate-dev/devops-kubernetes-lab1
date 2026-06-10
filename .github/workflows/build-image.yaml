@@ -1,0 +1,48 @@
+name: Build and Deploy Image
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set IMAGE TAG
+        run: echo "IMAGE_TAG=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Docker image
+        working-directory: apps/magic-number
+        run: |
+          docker build -t ghcr.io/pglcorporate-dev/magic-number:$IMAGE_TAG .
+
+      - name: Push image
+        run: |
+          docker push ghcr.io/pglcorporate-dev/magic-number:$IMAGE_TAG
+
+      - name: Update Kustomize image tag
+        run: |
+          sed -i "s/newTag:.*/newTag: $IMAGE_TAG/" manifests/magic-number/kustomization.yaml
+
+      - name: Commit updated manifest
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add manifests/magic-number/kustomization.yaml
+          git commit -m "Update image tag to $IMAGE_TAG" || exit 0
+          git push

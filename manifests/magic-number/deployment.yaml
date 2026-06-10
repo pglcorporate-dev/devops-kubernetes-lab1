@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: magic
-        image: ghcr.io/pglcorporate-dev/magic-number:latest
+        image: ghcr.io/pglcorporate-dev/magic-number
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
