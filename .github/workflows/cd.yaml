@@ -3,6 +3,8 @@ name: CD
 on:
   push:
     branches: ["main"]
+    paths-ignore:
+      - 'manifests/magic-number/kustomization.yaml'
 
 permissions:
   contents: write
@@ -13,6 +15,7 @@ env:
 
 jobs:
   deploy:
+    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
 
     steps:
