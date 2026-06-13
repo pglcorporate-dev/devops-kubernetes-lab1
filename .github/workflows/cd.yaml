@@ -46,7 +46,7 @@ jobs:
         run: |
           sed -i "s|newTag: .*|newTag: ${{ steps.vars.outputs.sha_short }}|" manifests/magic-number/kustomization.yaml
 
-        - name: Create GitOps Pull Request
+      - name: Create GitOps Pull Request
           uses: peter-evans/create-pull-request@v7
           with:
             token: ${{ secrets.GITHUB_TOKEN }}
