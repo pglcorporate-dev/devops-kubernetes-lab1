@@ -47,16 +47,16 @@ jobs:
           sed -i "s|newTag: .*|newTag: ${{ steps.vars.outputs.sha_short }}|" manifests/magic-number/kustomization.yaml
 
       - name: Create GitOps Pull Request
-          uses: peter-evans/create-pull-request@v7
-          with:
-            token: ${{ secrets.GITHUB_TOKEN }}
-            commit-message: "chore: deploy ${{ steps.vars.outputs.sha_short }}"
-            title: "Deploy image ${{ steps.vars.outputs.sha_short }}"
-            body: |
-              Automated deployment PR.
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: deploy ${{ steps.vars.outputs.sha_short }}"
+          title: "Deploy image ${{ steps.vars.outputs.sha_short }}"
+          body: |
+            Automated deployment PR.
 
-              Image:
-              ghcr.io/pglcorporate-dev/magic-number:${{ steps.vars.outputs.sha_short }}
+            Image:
+            ghcr.io/pglcorporate-dev/magic-number:${{ steps.vars.outputs.sha_short }}
 
-            branch: deploy/${{ steps.vars.outputs.sha_short }}
-            delete-branch: true
+          branch: deploy/${{ steps.vars.outputs.sha_short }}
+          delete-branch: true
