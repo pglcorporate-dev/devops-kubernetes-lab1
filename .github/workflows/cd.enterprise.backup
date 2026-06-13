@@ -1,5 +1,5 @@
-name: CD Automated GitOps PR Pattern
-
+name: CD
+# This file is meant to be used with GITHUB enterprise,as you can allow in Rules setting, the bot to be able to push
 on:
   push:
     branches: ["main"]
@@ -8,7 +8,6 @@ on:
 
 permissions:
   contents: write
-  pull-requests: write
   packages: write
 
 env:
@@ -46,17 +45,10 @@ jobs:
         run: |
           sed -i "s|newTag: .*|newTag: ${{ steps.vars.outputs.sha_short }}|" manifests/magic-number/kustomization.yaml
 
-        - name: Create GitOps Pull Request
-          uses: peter-evans/create-pull-request@v7
-          with:
-            token: ${{ secrets.GITHUB_TOKEN }}
-            commit-message: "chore: deploy ${{ steps.vars.outputs.sha_short }}"
-            title: "Deploy image ${{ steps.vars.outputs.sha_short }}"
-            body: |
-              Automated deployment PR.
-
-              Image:
-              ghcr.io/pglcorporate-dev/magic-number:${{ steps.vars.outputs.sha_short }}
-
-            branch: deploy/${{ steps.vars.outputs.sha_short }}
-            delete-branch: true
+      - name: Commit GitOps update
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add manifests/magic-number/kustomization.yaml
+          git commit -m "chore: deploy ${{ steps.vars.outputs.sha_short }}" || exit 0
+          git push
