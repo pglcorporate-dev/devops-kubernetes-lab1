@@ -16,6 +16,7 @@ env:
 
 jobs:
   deploy:
+    timeout-minutes: 15
     if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
 
