@@ -7,4 +7,4 @@ resources:
 
 images:
   - name: ghcr.io/pglcorporate-dev/magic-number
-    newTag: dev
+    newTag: 0220c5a
