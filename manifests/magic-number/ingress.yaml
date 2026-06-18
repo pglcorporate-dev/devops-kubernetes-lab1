@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: magic-number
+spec:
+  ingressClassName: nginx
+
+  rules:
+  - host: magic-number.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: magic-number
+            port:
+              number: 5000
