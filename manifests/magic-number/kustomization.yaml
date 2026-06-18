@@ -8,4 +8,4 @@ resources:
 
 images:
   - name: ghcr.io/pglcorporate-dev/magic-number
-    newTag: 0220c5a
+    newTag: 3ee5e8d
