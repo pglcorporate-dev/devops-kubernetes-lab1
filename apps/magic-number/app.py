@@ -17,8 +17,16 @@ def process():
 
     global low, high, guess
 
-    data = request.json
-    answer = data["answer"]
+    if not request.is_json:
+        return jsonify({"error": "Request body must be valid JSON"}), 400
+
+    data = request.get_json(silent=True)
+    if not isinstance(data, dict):
+        return jsonify({"error": "Request body must be a JSON object"}), 400
+
+    answer = data.get("answer")
+    if answer is None:
+        return jsonify({"error": "Field 'answer' is required"}), 400
 
     if answer == "start":
         low = 1
