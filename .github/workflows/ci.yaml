@@ -78,7 +78,7 @@ jobs:
 
       - name: Enforce hadolint (CLI)
         run: |
-          docker run --rm -i hadolint/hadolint:v2.12.0 < apps/magic-number/Dockerfile
+          docker run --rm -i hadolint/hadolint:v2.12.0 < $GITHUB_WORKSPACE/apps/magic-number/Dockerfile
 
       - name: Validate Docker build
         if: ${{ success() }}
