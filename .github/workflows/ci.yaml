@@ -42,10 +42,10 @@ jobs:
       - name: Security check
         run: |
           # Fail only if HIGH severity vulnerabilities are found
-          bandit -r . -q --exclude ./tests -lll
+          python -m bandit -r . -q --exclude ./tests -lll
     
           # Safety will report everything but only return a failing exit code for high/critical
-          safety scan --output json --cvss-severity=high,critical
+          python -m safety scan --output json --cvss-severity=high,critical 
           
       - name: Run unit tests
         run: |
