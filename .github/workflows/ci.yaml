@@ -62,12 +62,19 @@ jobs:
           export PYTHONPATH=${{ github.workspace }}/apps/magic-number
           pytest --junitxml=pytest.xml --cov-report=xml:../../coverage.xml --cov=. --cov-report=term-missing
 
+      - name: List workspace files for debug
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "GITHUB_WORKSPACE=$GITHUB_WORKSPACE"
+          ls -la "$GITHUB_WORKSPACE" || true
+          ls -la "$GITHUB_WORKSPACE/apps/magic-number" || true
+
       - name: Comment coverage report on PR
         if: github.event_name == 'pull_request'
         uses: MishaKav/pytest-coverage-comment@v1
         with:
-          pytest-coverage-path: ../../coverage.xml
-          junitxml-path: ./pytest.xml
+          pytest-coverage-path: coverage.xml
+          junitxml-path: apps/magic-number/pytest.xml
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Lint Dockerfile
@@ -95,7 +102,7 @@ jobs:
           cleanup() {
             echo "=== Container Status Details ==="
             docker inspect --format 'Status: {{.State.Status}} | ExitCode: {{.State.ExitCode}} | Error: {{.State.Error}}' "$container_name" || true
-            
+
             echo "=== Container Logs on Exit ==="
             docker logs "$container_name" || true
             echo "=============================="
@@ -105,8 +112,8 @@ jobs:
 
           trap cleanup EXIT
 
-          # explicit build to ensure we are testing the latest code changes
-          docker build -t test-image ./apps/magic-number 
+          # build using absolute workspace path to avoid working-directory confusion
+          docker build --no-cache --progress=plain -t test-image "$GITHUB_WORKSPACE/apps/magic-number"
 
           docker run \
             --detach \
@@ -116,9 +123,23 @@ jobs:
             --env FLASK_RUN_HOST=0.0.0.0 \
             test-image
 
-          curl \
-            --fail \
-            --retry 30 \
-            --retry-delay 5 \
-            --retry-connrefused \
-            http://127.0.0.1:5000/
+          # readiness loop: wait up to 60 seconds for the service to respond
+          ready=0
+          for i in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:5000/ >/dev/null 2>&1; then
+              ready=1
+              break
+            fi
+            echo "Waiting for service... ($i)"
+            sleep 2
+          done
+
+          if [ "$ready" -ne 1 ]; then
+            echo "Service did not become ready; dumping logs:" >&2
+            docker ps -a --filter "name=$container_name"
+            docker logs "$container_name" || true
+            docker inspect "$container_name" --format '{{.State.Status}} {{.State.ExitCode}}' || true
+            exit 1
+          fi
+
+          echo "Service ready — proceeding"
