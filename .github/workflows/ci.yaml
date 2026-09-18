@@ -31,8 +31,8 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install -r requirements-dev.txt
+          python -m pip install -r requirements.txt
+          python -m pip install -r requirements-dev.txt
 
       - name: Lint Python
         run: |
@@ -41,9 +41,12 @@ jobs:
 
       - name: Security check
         run: |
-          bandit -r . -q || true
-          safety check --json || true
-
+          # Fail only if HIGH severity vulnerabilities are found
+          bandit -r . -q --exclude ./tests -lll
+    
+          # Safety will report everything but only return a failing exit code for high/critical
+          safety check --json --fail-on high
+          
       - name: Run unit tests
         run: |
           export PYTHONPATH=${{ github.workspace }}/apps/magic-number
@@ -53,7 +56,7 @@ jobs:
         if: github.event_name == 'pull_request'
         uses: MishaKav/pytest-coverage-comment@v1
         with:
-          pytest-coverage-path: ./coverage.txt
+          pytest-coverage-path: ../../coverage.xml
           junitxml-path: ./pytest.xml
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -61,14 +64,33 @@ jobs:
         uses: hadolint/hadolint-action@v3.5.0
         with:
           dockerfile: apps/magic-number/Dockerfile
+          failure-threshold: warning
 
       - name: Validate Docker build
         run: |
-          docker build -t test-image .
+          docker build --no-cache --progress=plain -t test-image .
 
       - name: Integration smoke test
         run: |
-          docker build -t magic-number:test .
-          docker run -d --name magic-number-test -p 5000:5000 magic-number:test
-          curl -f http://127.0.0.1:5000/ || exit 1
-          docker rm -f magic-number-test
+          set -euo pipefail
+
+          container_name="magic-number-test"
+
+          cleanup() {
+            docker rm -f "$container_name" >/dev/null 2>&1 || true
+          }
+
+          trap cleanup EXIT
+
+          docker run \
+            --detach \
+            --name "$container_name" \
+            --publish 5000:5000 \
+            magic-number:test
+
+          curl \
+            --fail \
+            --retry 10 \
+            --retry-delay 2 \
+            --retry-connrefused \
+            http://127.0.0.1:5000/
