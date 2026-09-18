@@ -93,10 +93,13 @@ jobs:
           container_name="magic-number-test"
 
           cleanup() {
+            echo "=== Container Status Details ==="
+            docker inspect --format 'Status: {{.State.Status}} | ExitCode: {{.State.ExitCode}} | Error: {{.State.Error}}' "$container_name" || true
+            
             echo "=== Container Logs on Exit ==="
             docker logs "$container_name" || true
             echo "=============================="
-            
+
             docker rm -f "$container_name" >/dev/null 2>&1 || true
           }
 
