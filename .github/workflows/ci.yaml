@@ -86,7 +86,7 @@ jobs:
             --detach \
             --name "$container_name" \
             --publish 5000:5000 \
-            magic-number:test
+            test-image
 
           curl \
             --fail \
