@@ -44,7 +44,7 @@ jobs:
           SAFETY_API_KEY: ${{ secrets.SAFETY_API_KEY }}
         run: |
           # Fail only if HIGH severity vulnerabilities are found
-          python -m bandit -r . -q --exclude ./tests -lll
+          python -m bandit -r . -q --exclude ./tests -lll  || { echo "Bandit issues found"; exit 1; }
     
           # Safety will report everything but only return a failing exit code for high/critical
           python -m safety \
@@ -52,7 +52,10 @@ jobs:
             --stage cicd \
              scan \
              --output json \
-             --cvss-severity=high,critical
+             --cvss-severity=high,critical || {
+            echo "Safety: high/critical vulnerabilities detected" >&2
+            exit 1
+          }
           
       - name: Run unit tests
         run: |
@@ -73,11 +76,17 @@ jobs:
           dockerfile: apps/magic-number/Dockerfile
           failure-threshold: warning
 
+      - name: Enforce hadolint (CLI)
+        run: |
+          docker run --rm -i hadolint/hadolint:v2.12.0 < apps/magic-number/Dockerfile
+
       - name: Validate Docker build
+        if: ${{ success() }}
         run: |
           docker build --no-cache --progress=plain -t test-image .
 
       - name: Integration smoke test
+        if: ${{ success() }}
         run: |
           set -euo pipefail
 

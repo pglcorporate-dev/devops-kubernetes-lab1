@@ -166,3 +166,54 @@ kubectl logs -l app=magic
 - Use the `manifests/magic-number` directory as the canonical app deployment source.
 - Argo CD watches the Git repo and will deploy changes from `gitops/dev/application.yaml`.
 - Keep `gitops/prod/` reserved for staging or production GitOps definitions.
+
+## Security scan (Safety) — API key and observed error
+
+The repository uses `safety` for dependency vulnerability scanning in CI. The Safety platform requires an API key to be created and used for some hosted features.
+
+1. Create an API key for your organization at: https://platform.safetycli.com/organization/apikeys
+2. Add the key as a repository secret in GitHub (example name: `SAFETY_API_KEY`).
+
+Example: using the secret in the GitHub Actions `ci.yaml` step:
+
+```yaml
+- name: Check vulnerable dependencies
+  env:
+    SAFETY_API_KEY: ${{ secrets.SAFETY_API_KEY }}
+  run: |
+    pip install safety
+    safety check --json || true
+```
+
+Or for local testing:
+
+```bash
+export SAFETY_API_KEY=your_api_key_here
+safety check --json
+```
+
+Observed error during CI run (example):
+
+```
+/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/safety/auth/main.py:5:
+AuthlibDeprecationWarning: authlib.jose module is deprecated, please use joserfc instead.
+
+It will be compatible before version 2.0.0.
+
+  from authlib.jose.errors import ExpiredTokenError
+
+/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/authlib/integrations/httpx_client/assertion_client.py:5:
+AuthlibDeprecationWarning: The httpx module is deprecated; please use httpx2 instead.
+
+  from ._compat import httpx2
+
+Unhandled exception happened: EOF when reading a line
+
+Error: Process completed with exit code 1.
+```
+
+Notes:
+- The deprecation warnings above are emitted by upstream libraries (Authlib) used by the Safety client; they are warnings but may indicate the need to pin or upgrade dependencies.
+- The `EOF when reading a line` typically indicates the Safety CLI attempted to read input (for example, prompting for an API key) but ran non-interactively in the runner. Supplying the `SAFETY_API_KEY` secret and exporting it into the step environment prevents interactive prompts and avoids this error.
+
+If you want, I can add an `upload-artifact` step for the safety output or adjust the CI step to fail-on-severity and to use the provided `SAFETY_API_KEY` secret.

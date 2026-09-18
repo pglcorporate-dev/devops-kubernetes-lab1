@@ -29,7 +29,7 @@ jobs:
           ref: ${{ github.event.workflow_run.head_sha || github.sha }}
 
       - name: Lint Dockerfile
-        uses: hadolint/hadolint-action@v3
+        uses: hadolint/hadolint-action@v3.5.0
         with:
           dockerfile: apps/magic-number/Dockerfile
 
@@ -63,7 +63,7 @@ jobs:
             ${{ env.IMAGE_NAME }}:latest
 
       - name: Scan image for vulnerabilities
-        uses: aquasecurity/trivy-action@v0
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           image-ref: ${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.sha_short }}
           format: sarif
