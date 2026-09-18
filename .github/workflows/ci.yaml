@@ -78,7 +78,7 @@ jobs:
 
       - name: Enforce hadolint (CLI)
         run: |
-          docker run --rm -i hadolint/hadolint:v2.12.0 < $GITHUB_WORKSPACE/apps/magic-number/Dockerfile
+          docker run --rm -v "$GITHUB_WORKSPACE/apps/magic-number":/workdir -w /workdir hadolint/hadolint:v2.12.0 hadolint Dockerfile
 
       - name: Validate Docker build
         if: ${{ success() }}
@@ -103,7 +103,7 @@ jobs:
             --name "$container_name" \
             --publish 5000:5000 \
             test-image
-            
+
           # 1) ¿El contenedor existe y en qué estado?
           docker ps -a --filter "name=magic-number-test" --format 'table {{.Names}}\t{{.Status}}\t{{.Image}}'
 
@@ -120,7 +120,7 @@ jobs:
           ss -ltnp | grep 5000 || true
 
           # 6) Si quieres entrar en el contenedor para inspección manual (si está up)
-          docker exec -it magic-number-test sh -c 'ps aux; ls -la /app; python -V; pip list'
+          docker exec magic-number-test sh -c 'ps aux; ls -la /app; python -V; pip list'
 
           curl \
             --fail \
