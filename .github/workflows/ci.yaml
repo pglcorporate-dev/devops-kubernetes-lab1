@@ -45,7 +45,7 @@ jobs:
           bandit -r . -q --exclude ./tests -lll
     
           # Safety will report everything but only return a failing exit code for high/critical
-          safety check --json --fail-on high
+          safety scan --output json --cvss-severity=high,critical
           
       - name: Run unit tests
         run: |
