@@ -2,10 +2,20 @@ name: CI
 
 on:
   pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pull-requests: write
 
 jobs:
   validate:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/magic-number
 
     steps:
       - name: Checkout
@@ -15,18 +25,121 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+          cache: "pip"
+          cache-dependency-path: apps/magic-number/requirements.txt
 
       - name: Install dependencies
-        working-directory: apps/magic-number
         run: |
-          pip install -r requirements.txt
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+          python -m pip install -r requirements-dev.txt
 
       - name: Lint Python
-        working-directory: apps/magic-number
         run: |
           python -m py_compile app.py
+          flake8 app.py --count --select=E9,F63,F7,F82 --show-source --statistics
+
+      - name: Security check
+        env: 
+          SAFETY_API_KEY: ${{ secrets.SAFETY_API_KEY }}
+        run: |
+          # Fail only if HIGH severity vulnerabilities are found
+          python -m bandit -r . -q --exclude ./tests -lll  || { echo "Bandit issues found"; exit 1; }
+    
+          # Safety will report everything but only return a failing exit code for high/critical
+          python -m safety \
+            --key "$SAFETY_API_KEY" \
+            --stage cicd \
+             scan \
+             --output json \
+             --cvss-severity=high,critical || {
+            echo "Safety: high/critical vulnerabilities detected" >&2
+            exit 1
+          }
+          
+      - name: Run unit tests
+        run: |
+          export PYTHONPATH=${{ github.workspace }}/apps/magic-number
+          pytest --junitxml=pytest.xml --cov-report=xml:../../coverage.xml --cov=. --cov-report=term-missing
+
+      - name: List workspace files for debug
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "GITHUB_WORKSPACE=$GITHUB_WORKSPACE"
+          ls -la "$GITHUB_WORKSPACE" || true
+          ls -la "$GITHUB_WORKSPACE/apps/magic-number" || true
+
+      - name: Comment coverage report on PR
+        if: github.event_name == 'pull_request'
+        uses: MishaKav/pytest-coverage-comment@v1
+        with:
+          pytest-coverage-path: coverage.xml
+          junitxml-path: apps/magic-number/pytest.xml
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Lint Dockerfile
+        uses: hadolint/hadolint-action@v3.5.0
+        with:
+          dockerfile: apps/magic-number/Dockerfile
+          failure-threshold: warning
+
+      - name: Enforce hadolint (CLI)
+        run: |
+          docker run --rm -v "$GITHUB_WORKSPACE/apps/magic-number":/workdir -w /workdir hadolint/hadolint:v2.12.0 hadolint Dockerfile
 
       - name: Validate Docker build
-        working-directory: apps/magic-number
+        if: ${{ success() }}
         run: |
-          docker build -t test-image .
+          docker build --no-cache --progress=plain -t test-image "$GITHUB_WORKSPACE/apps/magic-number"
+
+      - name: Integration smoke test
+        if: ${{ success() }}
+        run: |
+          set -euo pipefail
+
+          container_name="magic-number-test"
+
+          cleanup() {
+            echo "=== Container Status Details ==="
+            docker inspect --format 'Status: {{.State.Status}} | ExitCode: {{.State.ExitCode}} | Error: {{.State.Error}}' "$container_name" || true
+
+            echo "=== Container Logs on Exit ==="
+            docker logs "$container_name" || true
+            echo "=============================="
+
+            docker rm -f "$container_name" >/dev/null 2>&1 || true
+          }
+
+          trap cleanup EXIT
+
+          # build using absolute workspace path to avoid working-directory confusion
+          docker build --no-cache --progress=plain -t test-image "$GITHUB_WORKSPACE/apps/magic-number"
+
+          docker run \
+            --detach \
+            --name "$container_name" \
+            --publish 5000:5000 \
+            --env PYTHONUNBUFFERED=1 \
+            --env FLASK_RUN_HOST=0.0.0.0 \
+            test-image
+
+          # readiness loop: wait up to 60 seconds for the service to respond
+          ready=0
+          for i in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:5000/ >/dev/null 2>&1; then
+              ready=1
+              break
+            fi
+            echo "Waiting for service... ($i)"
+            sleep 2
+          done
+
+          if [ "$ready" -ne 1 ]; then
+            echo "Service did not become ready; dumping logs:" >&2
+            docker ps -a --filter "name=$container_name"
+            docker logs "$container_name" || true
+            docker inspect "$container_name" --format '{{.State.Status}} {{.State.ExitCode}}' || true
+            exit 1
+          fi
+
+          echo "Service ready — proceeding"

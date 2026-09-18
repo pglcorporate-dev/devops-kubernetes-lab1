@@ -1,28 +1,37 @@
 name: CD Automated GitOps PR Pattern
 
 on:
-  push:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
     branches: ["main"]
-    paths-ignore:
-      - 'manifests/magic-number/kustomization.yaml'
+  workflow_dispatch:
 
 permissions:
   contents: write
   pull-requests: write
   packages: write
+  security-events: write
 
 env:
   IMAGE_NAME: ghcr.io/pglcorporate-dev/magic-number
 
 jobs:
   deploy:
-    timeout-minutes: 15
-    if: github.actor != 'github-actions[bot]'
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
+    timeout-minutes: 20
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+      - name: Lint Dockerfile
+        uses: hadolint/hadolint-action@v3.5.0
+        with:
+          dockerfile: apps/magic-number/Dockerfile
 
       - name: Get SHA tag
         id: vars
@@ -35,6 +44,15 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Generate metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE_NAME }}
+          tags: |
+            type=sha,prefix={{branch}}-
+            type=ref,event=branch
+
       - name: Build & Push image
         uses: docker/build-push-action@v6
         with:
@@ -42,12 +60,37 @@ jobs:
           push: true
           tags: |
             ${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.sha_short }}
+            ${{ env.IMAGE_NAME }}:latest
+
+      - name: Scan image for vulnerabilities
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          image-ref: ${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.sha_short }}
+          format: sarif
+          output: trivy-results.sarif
+          severity: CRITICAL
+          exit-code: 1
+
+      - name: Upload Trivy results
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: trivy-results.sarif
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trivy-report
+          path: trivy-results.sarif
+          retention-days: 90
 
       - name: Update kustomization.yaml
         run: |
           sed -i "s|newTag: .*|newTag: ${{ steps.vars.outputs.sha_short }}|" manifests/magic-number/kustomization.yaml
 
       - name: Create GitOps Pull Request
+        if: success()
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}

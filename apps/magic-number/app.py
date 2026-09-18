@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, jsonify, send_from_directory
 
 app = Flask(__name__, static_folder="static")
@@ -11,14 +12,25 @@ guess = 50
 def home():
     return send_from_directory("static", "index.html")
 
-
+@app.route("/health")
+def health():
+    return jsonify({"status": "healthy"}), 200
+    
 @app.route("/guess", methods=["POST"])
 def process():
 
     global low, high, guess
 
-    data = request.json
-    answer = data["answer"]
+    if not request.is_json:
+        return jsonify({"error": "Request body must be valid JSON"}), 400
+
+    data = request.get_json(silent=True)
+    if not isinstance(data, dict):
+        return jsonify({"error": "Request body must be a JSON object"}), 400
+
+    answer = data.get("answer")
+    if answer is None:
+        return jsonify({"error": "Field 'answer' is required"}), 400
 
     if answer == "start":
         low = 1
@@ -43,4 +55,6 @@ def process():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    # Default to 0.0.0.0 for Docker/CI compatibility, or override via env
+    host = os.getenv("FLASK_RUN_HOST", "0.0.0.0") 
+    app.run(host=host, port=5000)
