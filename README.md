@@ -29,8 +29,8 @@ The sample app is called **magic-number**. It runs a Flask service that guesses 
   - `dev/application.yaml` – Argo CD Application definition for the sample app.
   - `prod/` – placeholder for production GitOps configuration.
 
-- `infra/bootstrap/provider.tf`
-  - Terraform provider configuration for using the local kubeconfig file.
+- `infra/bootstrap/`
+  - `provider.tf` — Terraform provider configuration for using the local kubeconfig file.
 
 ## Architecture
 
@@ -138,7 +138,17 @@ provider "kubernetes" {
 }
 ```
 
-This repo does not currently include additional Terraform resources beyond the provider configuration.
+The `infra/bootstrap` directory is intentionally minimal. It is intended to bootstrap provider connectivity to your local cluster before additional Terraform-managed resources are added.
+
+To validate the provider configuration:
+
+```bash
+cd infra/bootstrap
+terraform init
+terraform plan
+```
+
+This repo does not currently include any Terraform-managed Kubernetes resources beyond the provider configuration.
 
 ## Helpful Commands
 
