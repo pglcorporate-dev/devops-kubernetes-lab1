@@ -105,6 +105,9 @@ jobs:
 
           trap cleanup EXIT
 
+          # explicit build to ensure we are testing the latest code changes
+          docker build -t test-image ./apps/magic-number 
+
           docker run \
             --detach \
             --name "$container_name" \
@@ -115,7 +118,7 @@ jobs:
 
           curl \
             --fail \
-            --retry 10 \
+            --retry 30 \
             --retry-delay 5 \
             --retry-connrefused \
             http://127.0.0.1:5000/
