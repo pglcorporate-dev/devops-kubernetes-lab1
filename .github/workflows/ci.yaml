@@ -107,6 +107,6 @@ jobs:
           curl \
             --fail \
             --retry 30 \
-            --retry-delay 5\
+            --retry-delay 5 \
             --retry-connrefused \
             http://127.0.0.1:5000/
