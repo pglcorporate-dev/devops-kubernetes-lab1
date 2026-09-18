@@ -1,5 +1,1 @@
-pytest
-pytest-cov
-flake8
-bandit
-safety>=3.8.0b0
+flask
