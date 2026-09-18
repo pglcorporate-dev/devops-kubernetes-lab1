@@ -103,6 +103,24 @@ jobs:
             --name "$container_name" \
             --publish 5000:5000 \
             test-image
+            
+          # 1) ¿El contenedor existe y en qué estado?
+          docker ps -a --filter "name=magic-number-test" --format 'table {{.Names}}\t{{.Status}}\t{{.Image}}'
+
+          # 2) Ver logs (muestra trace si la app crasheó)
+          docker logs magic-number-test || true
+
+          # 3) Si salió, ver exit code / estado
+          docker inspect magic-number-test --format '{{.State.Status}} {{.State.ExitCode}}' || true
+
+          # 4) Confirmar que la imagen test-image existe
+          docker images --filter=reference=test-image --format 'table {{.Repository}}\t{{.Tag}}\t{{.Size}}'
+
+          # 5) Comprobar puertos en el runner (¿Docker mapeó 5000?)
+          ss -ltnp | grep 5000 || true
+
+          # 6) Si quieres entrar en el contenedor para inspección manual (si está up)
+          docker exec -it magic-number-test sh -c 'ps aux; ls -la /app; python -V; pip list'
 
           curl \
             --fail \
