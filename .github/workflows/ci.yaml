@@ -83,7 +83,7 @@ jobs:
       - name: Validate Docker build
         if: ${{ success() }}
         run: |
-          docker build --no-cache --progress=plain -t test-image .
+          docker build --no-cache --progress=plain -t test-image "$GITHUB_WORKSPACE/apps/magic-number"
 
       - name: Integration smoke test
         if: ${{ success() }}

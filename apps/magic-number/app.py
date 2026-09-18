@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, jsonify, send_from_directory
 
 app = Flask(__name__, static_folder="static")
@@ -11,7 +12,10 @@ guess = 50
 def home():
     return send_from_directory("static", "index.html")
 
-
+@app.route("/health")
+def health():
+    return jsonify({"status": "healthy"}), 200
+    
 @app.route("/guess", methods=["POST"])
 def process():
 
@@ -51,4 +55,6 @@ def process():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    # Default to 0.0.0.0 for Docker/CI compatibility, or override via env
+    host = os.getenv("FLASK_RUN_HOST", "0.0.0.0") 
+    app.run(host=host, port=5000)
