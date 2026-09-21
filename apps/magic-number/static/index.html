@@ -1,40 +1,155 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Mind Reader</title>
+
+    <style>
+
+        /* Reset básico */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Fondo de pantalla */
+        body {
+            min-height: 100vh;
+
+            background-color: #8427F5;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            font-family: Arial, sans-serif;
+        }
+
+        /* Contenedor principal */
+        .game-container {
+
+            background-color: white;
+
+            padding: 40px;
+
+            border-radius: 16px;
+
+            width: 90%;
+            max-width: 500px;
+
+            text-align: center;
+
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Título */
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 26px;
+        }
+
+        /* Número / mensaje */
+        h2 {
+            color: #8427F5;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        /* Botones */
+        button {
+
+            background-color: #8427F5;
+
+            color: white;
+
+            border: none;
+
+            padding: 12px 20px;
+
+            margin: 5px;
+
+            border-radius: 8px;
+
+            font-size: 16px;
+
+            cursor: pointer;
+
+            transition: background-color 0.2s ease;
+        }
+
+        /* Hover */
+        button:hover {
+            background-color: #6B1CC7;
+        }
+
+        /* Efecto al presionar */
+        button:active {
+            transform: scale(0.97);
+        }
+
+    </style>
+
 </head>
+
 <body>
 
-<h1>Think of a number (1-100)</h1>
+    <div class="game-container">
 
-<h2 id="guess">Press Start</h2>
+        <h1>Think of a number (1-100)</h1>
 
-<button onclick="sendAnswer('start')">Start</button>
-<button onclick="sendAnswer('higher')">Higher</button>
-<button onclick="sendAnswer('lower')">Lower</button>
-<button onclick="sendAnswer('correct')">Correct</button>
+        <h2 id="guess">Press Start</h2>
 
-<script>
+        <div class="buttons">
 
-async function sendAnswer(answer){
+            <button onclick="sendAnswer('start')">
+                Start
+            </button>
 
-    const response = await fetch("/guess", {
-        method:"POST",
-        headers: {
-            "Content-Type":"application/json"
-        },
-        body: JSON.stringify({
-            answer: answer
-        })
-    });
+            <button onclick="sendAnswer('higher')">
+                Higher
+            </button>
 
-    const data = await response.json();
+            <button onclick="sendAnswer('lower')">
+                Lower
+            </button>
 
-    document.getElementById("guess").innerText =
-        data.message;
-}
+            <button onclick="sendAnswer('correct')">
+                Correct
+            </button>
 
-</script>
+        </div>
+
+    </div>
+
+    <script>
+
+        async function sendAnswer(answer) {
+
+            const response = await fetch("/guess", {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    answer: answer
+                })
+            });
+
+            const data = await response.json();
+
+            document.getElementById("guess").innerText =
+                data.message;
+
+        }
+
+    </script>
 
 </body>
 </html>
