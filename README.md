@@ -11,6 +11,13 @@ A hands-on DevOps lab for cloud-native workflows and GitOps. This repository dem
 
 The sample app is called **magic-number**. It runs a Flask service that guesses a number between 1 and 100 using a binary search flow and exposes a small browser UI.
 
+**Estado actual del proyecto (informativo, 2026-09-21):**
+
+- `magic-number` está funcional localmente y cuenta con una suite de pruebas básica en `apps/magic-number/tests/test_app.py`.
+- La imagen Docker está presente y `manifests/magic-number/kustomization.yaml` referencia una etiqueta inmutable (`0220c5a`).
+- Existen recomendaciones de mejora de CI/CD documentadas en `INFORME_MEJORAS_CI_CD.md` y un ADR propuesto en `docs/ADR-0001-ci-cd-improvements.md`.
+- No se han aplicado cambios automatizados al pipeline; los cambios sugeridos son informativos y requieren aprobación para implementar.
+
 ## Repository Layout
 
 - `apps/magic-number/`
