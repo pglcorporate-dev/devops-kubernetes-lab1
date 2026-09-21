@@ -62,14 +62,33 @@ jobs:
             ${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.sha_short }}
             ${{ env.IMAGE_NAME }}:latest
 
-      - name: Scan image for vulnerabilities
+      - name: Scan image for vulnerabilities High/Critical
         uses: aquasecurity/trivy-action@v0.36.0
         with:
           image-ref: ${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.sha_short }}
+          scanners: 'vuln,misconfig,secret'
           format: sarif
           output: trivy-results.sarif
-          severity: CRITICAL
+          severity: 'HIGH,CRITICAL'
+          limit-severities-for-sarif: true
+          ignore-unfixed: true
           exit-code: 1
+        env:
+          TRIVY_SKIP_VERSION_CHECK: 'true'
+
+      - name: Generate Trivy SARIF complete report 
+        if: always()
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          image-ref: ${{ env.IMAGE_NAME }}:${{ steps.vars.outputs.sha_short }}
+          scanners: 'vuln,misconfig,secret'
+          format: sarif
+          output: trivy-results.sarif
+          severity: 'UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL'
+          vuln-type: 'os,library'
+          exit-code: 0
+        env:
+          TRIVY_SKIP_VERSION_CHECK: 'true'
 
       - name: Upload Trivy results
         uses: github/codeql-action/upload-sarif@v3
