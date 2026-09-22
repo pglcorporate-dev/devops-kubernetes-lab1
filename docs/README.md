@@ -1,0 +1,226 @@
+# devops-kubernetes-lab1
+
+A hands-on DevOps lab for cloud-native workflows and GitOps. This repository demonstrates:
+
+- Building and containerizing a simple Python Flask application.
+- Deploying Kubernetes manifests using `kubectl` and Kustomize.
+- Managing deployments with Argo CD GitOps.
+- Bootstrapping Kubernetes provider configuration with Terraform.
+
+## Project Overview
+
+The sample app is called **magic-number**. It runs a Flask service that guesses a number between 1 and 100 using a binary search flow and exposes a small browser UI.
+
+**Estado actual del proyecto (informativo, 2026-09-21):**
+
+- `magic-number` está funcional localmente y cuenta con una suite de pruebas básica en `apps/magic-number/tests/test_app.py`.
+- La imagen Docker está presente y `manifests/magic-number/kustomization.yaml` referencia una etiqueta inmutable (`0220c5a`).
+- Existen recomendaciones de mejora de CI/CD documentadas en `INFORME_MEJORAS_CI_CD.md` y un ADR propuesto en `docs/ADR-0001-ci-cd-improvements.md`.
+- No se han aplicado cambios automatizados al pipeline; los cambios sugeridos son informativos y requieren aprobación para implementar.
+
+## Repository Layout
+
+- `apps/magic-number/`
+  - `app.py` – Flask application logic.
+  - `Dockerfile` – container image build instructions.
+  - `requirements.txt` – Python dependency list.
+  - `static/index.html` – frontend UI for the number guessing game.
+
+- `manifests/magic-number/`
+  - `deployment.yaml` – Kubernetes Deployment manifest.
+  - `service.yaml` – Kubernetes Service manifest.
+  - `kustomization.yaml` – Kustomize overlay that pins the container image tag.
+
+- `gitops/`
+  - `argocd/ingress.yaml` – Ingress manifest for exposing Argo CD.
+  - `dev/application.yaml` – Argo CD Application definition for the sample app.
+  - `prod/` – placeholder for production GitOps configuration.
+
+- `infra/bootstrap/`
+  - `provider.tf` — Terraform provider configuration for using the local kubeconfig file.
+
+## Architecture
+
+1. Build the `magic-number` container image.
+2. Deploy Kubernetes resources from `manifests/magic-number/`.
+3. Use Argo CD to sync the Git repository to the Kubernetes cluster.
+4. Optionally manage environment-specific overlays in `gitops/dev/` and `gitops/prod/`.
+
+## Prerequisites
+
+- `git`
+- `docker`
+- `kubectl`
+- `terraform`
+- A Kubernetes cluster with a valid `~/.kube/config` context
+- Access to the image registry used in manifests (`ghcr.io/pglcorporate-dev/magic-number`)
+
+## Local Development
+
+### Run the app locally
+
+From `apps/magic-number/`:
+
+```bash
+cd apps/magic-number
+python -m venv .venv
+source .venv/Scripts/activate   # Windows PowerShell: .\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+python app.py
+```
+
+The app listens on port `5000`. Open `http://localhost:5000` in your browser.
+
+### Build the Docker image
+
+From `apps/magic-number/`:
+
+```bash
+docker build -t ghcr.io/pglcorporate-dev/magic-number:latest .
+```
+
+### Push the image
+
+```bash
+docker push ghcr.io/pglcorporate-dev/magic-number:latest
+```
+
+> The Kubernetes manifests currently reference `ghcr.io/pglcorporate-dev/magic-number`.
+
+## Kubernetes Deployment
+
+### Apply resources directly
+
+From the repository root:
+
+```bash
+kubectl apply -f manifests/magic-number/
+```
+
+### Use Kustomize
+
+```bash
+kubectl apply -k manifests/magic-number/
+```
+
+### Verify
+
+```bash
+kubectl get pods,svc -l app=magic
+```
+
+## GitOps with Argo CD
+
+The Argo CD Application is defined in `gitops/dev/application.yaml` and targets the `manifests/magic-number` path in this repo.
+
+To deploy via Argo CD:
+
+1. Install Argo CD in your cluster if it is not already installed.
+2. Apply the Argo CD ingress if you want external access:
+
+   ```bash
+   kubectl apply -f gitops/argocd/ingress.yaml
+   ```
+
+3. Create or sync the Argo CD Application:
+
+   ```bash
+   kubectl apply -f gitops/dev/application.yaml
+   ```
+
+4. Open the Argo CD UI at `http://argocd.lab.local` if your DNS/hosts file resolves that host.
+
+### Notes
+
+- `syncPolicy.automated` in `gitops/dev/application.yaml` enables automatic reconciliation and self-healing.
+- `gitops/prod/` is currently a placeholder for future production GitOps configuration.
+
+## Terraform Bootstrap
+
+The `infra/bootstrap/provider.tf` file configures the Kubernetes Terraform provider with the local kubeconfig file.
+
+```hcl
+provider "kubernetes" {
+  config_path = "~/.kube/config"
+}
+```
+
+The `infra/bootstrap` directory is intentionally minimal. It is intended to bootstrap provider connectivity to your local cluster before additional Terraform-managed resources are added.
+
+To validate the provider configuration:
+
+```bash
+cd infra/bootstrap
+terraform init
+terraform plan
+```
+
+This repo does not currently include any Terraform-managed Kubernetes resources beyond the provider configuration.
+
+## Helpful Commands
+
+```bash
+kubectl config current-context
+kubectl apply -k manifests/magic-number/
+kubectl describe pod -l app=magic
+kubectl logs -l app=magic
+```
+
+## Notes for New Developers
+
+- Start by running the app locally in `apps/magic-number/`.
+- Build and push the container image before applying Kubernetes manifests.
+- Use the `manifests/magic-number` directory as the canonical app deployment source.
+- Argo CD watches the Git repo and will deploy changes from `gitops/dev/application.yaml`.
+- Keep `gitops/prod/` reserved for staging or production GitOps definitions.
+
+## Security scan (Safety) — API key and observed error
+
+The repository uses `safety` for dependency vulnerability scanning in CI. The Safety platform requires an API key to be created and used for some hosted features.
+
+1. Create an API key for your organization at: https://platform.safetycli.com/organization/apikeys
+2. Add the key as a repository secret in GitHub (example name: `SAFETY_API_KEY`).
+
+Example: using the secret in the GitHub Actions `ci.yaml` step:
+
+```yaml
+- name: Check vulnerable dependencies
+  env:
+    SAFETY_API_KEY: ${{ secrets.SAFETY_API_KEY }}
+  run: |
+    pip install safety
+    safety check --json || true
+```
+
+Or for local testing:
+
+```bash
+export SAFETY_API_KEY=your_api_key_here
+safety check --json
+```
+
+Observed error during CI run (example):
+
+```
+/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/safety/auth/main.py:5:
+AuthlibDeprecationWarning: authlib.jose module is deprecated, please use joserfc instead.
+
+It will be compatible before version 2.0.0.
+
+  from authlib.jose.errors import ExpiredTokenError
+
+/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/authlib/integrations/httpx_client/assertion_client.py:5:
+AuthlibDeprecationWarning: The httpx module is deprecated; please use httpx2 instead.
+
+  from ._compat import httpx2
+
+Unhandled exception happened: EOF when reading a line
+
+Error: Process completed with exit code 1.
+```
+
+Notes:
+- The deprecation warnings above are emitted by upstream libraries (Authlib) used by the Safety client; they are warnings but may indicate the need to pin or upgrade dependencies.
+- The `EOF when reading a line` typically indicates the Safety CLI attempted to read input (for example, prompting for an API key) but ran non-interactively in the runner. Supplying the `SAFETY_API_KEY` secret and exporting it into the step environment prevents interactive prompts and avoids this error.
+
+If you want, I can add an `upload-artifact` step for the safety output or adjust the CI step to fail-on-severity and to use the provided `SAFETY_API_KEY` secret.
