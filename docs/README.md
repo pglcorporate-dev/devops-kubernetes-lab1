@@ -157,6 +157,36 @@ terraform plan
 
 This repo does not currently include any Terraform-managed Kubernetes resources beyond the provider configuration.
 
+## Ignore Files and Local Cache Hygiene
+
+This repository includes both a Git ignore file and a Docker ignore file to keep the working tree and build context clean.
+
+### .gitignore
+
+The repository root contains `.gitignore` to prevent local, generated, and sensitive files from being committed to Git.
+
+- `.venv/`, `venv/`, `env/`, `ENV/` — Python virtual environments generated locally during development.
+- `__pycache__/` and `*.py[cod]` — compiled Python bytecode and cached modules.
+- `.pytest_cache/`, `.mypy_cache/`, `.ruff_cache/` — local tooling caches produced by test and linting commands.
+- `.coverage`, `coverage.xml`, `htmlcov/` — generated test coverage output.
+- `.vscode/`, `.idea/` — editor settings and IDE workspace metadata.
+- `.env`, `.env.*` — environment variable files that may contain secrets.
+- `.cache/trivy/` — Trivy vulnerability scanner cache, which stores downloaded DBs and metadata locally and should not be committed.
+
+### .dockerignore
+
+The repository root also contains `.dockerignore` so Docker builds do not send unnecessary or sensitive files to the daemon.
+
+- `.venv/`, `venv/`, `env/`, `ENV/` — local Python environments not needed in the container image.
+- `__pycache__/`, `*.py[cod]` — generated Python artifacts that bloat the build context.
+- `.pytest_cache/`, `.coverage`, `coverage.xml`, `htmlcov/` — test and coverage outputs not needed inside the image.
+- `.vscode/`, `.idea/` — editor metadata that should not be included in the Docker context.
+- `.cache/` — general cache directories, including local scanner state and other non-runtime artifacts.
+- `.git/` — Git metadata is not needed in the image context.
+- `.env`, `.env.*` — secrets should never be copied into build contexts or container images.
+
+These exclusions reduce noise, prevent accidental secret leakage, and keep local development and CI output out of the repo and container build contexts.
+
 ## Helpful Commands
 
 ```bash
