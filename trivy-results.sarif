@@ -5273,13 +5273,13 @@
       ],
       "columnKind": "utf16CodeUnits",
       "properties": {
-        "imageID": "sha256:4dd451a191a75098b2b38aeed82e8f97f896ec9a21684902a72db70e240a781f",
-        "imageName": "ghcr.io/pglcorporate-dev/magic-number:be4602a",
+        "imageID": "sha256:c27e4825704b1a1b2b565dc709b85843a82efebe55559546e32859a6b39b4c42",
+        "imageName": "ghcr.io/pglcorporate-dev/magic-number:765282d",
         "repoDigests": [
-          "ghcr.io/pglcorporate-dev/magic-number@sha256:7d7e7d9e3d38c4acd77142ef59233718a6e4d11ca2443bad3327f7594f8b6409"
+          "ghcr.io/pglcorporate-dev/magic-number@sha256:c899e2caaa182a2c33c96db1bd6b3e69f3c2029c7a69d580c8baefd585f5739f"
         ],
         "repoTags": [
-          "ghcr.io/pglcorporate-dev/magic-number:be4602a",
+          "ghcr.io/pglcorporate-dev/magic-number:765282d",
           "ghcr.io/pglcorporate-dev/magic-number:latest"
         ]
       }
