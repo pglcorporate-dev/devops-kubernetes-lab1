@@ -122,4 +122,5 @@ jobs:
             ghcr.io/pglcorporate-dev/magic-number:${{ steps.vars.outputs.sha_short }}
 
           branch: deploy/${{ steps.vars.outputs.sha_short }}
+          base: main
           delete-branch: true
