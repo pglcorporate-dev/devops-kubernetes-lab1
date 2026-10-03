@@ -1,7 +1,9 @@
 import os
 from flask import Flask, request, jsonify, send_from_directory
+from prometheus_flask_exporter import PrometheusMetrics
 
 app = Flask(__name__, static_folder="static")
+metrics = PrometheusMetrics(app)
 
 low = 1
 high = 100

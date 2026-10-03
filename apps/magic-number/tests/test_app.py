@@ -28,3 +28,9 @@ def test_guess_without_json_returns_bad_request(client):
     response = client.post("/guess")
     assert response.status_code == 400
     assert response.get_json()["error"] == "Request body must be valid JSON"
+
+
+def test_metrics_endpoint_exposed(client):
+    response = client.get("/metrics")
+    assert response.status_code == 200
+    assert b"# HELP" in response.data or b"# TYPE" in response.data
