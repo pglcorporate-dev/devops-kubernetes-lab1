@@ -10,6 +10,60 @@
           "name": "Trivy",
           "rules": [
             {
+              "id": "CVE-2026-102010",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "gcc-toolset-15-gcc: gcc: gcc-toolset-16: gcc: Denial of Service via use-after-free in binary heap erase_if"
+              },
+              "fullDescription": {
+                "text": "A flaw was found in GCC. When an application calls the erase_if function on a binary heap priority queue in libstdc++, the library reallocates storage but fails to update its internal entry pointer. An attacker capable of triggering this operation can exploit this use-after-free condition, leading to a Denial of Service (DoS) via an application crash or potential memory corruption."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2026-102010",
+              "help": {
+                "text": "Vulnerability CVE-2026-102010\nSeverity: MEDIUM\nPackage: libstdc++6\nFixed Version: \nLink: [CVE-2026-102010](https://avd.aquasec.com/nvd/cve-2026-102010)\nA flaw was found in GCC. When an application calls the erase_if function on a binary heap priority queue in libstdc++, the library reallocates storage but fails to update its internal entry pointer. An attacker capable of triggering this operation can exploit this use-after-free condition, leading to a Denial of Service (DoS) via an application crash or potential memory corruption.",
+                "markdown": "**Vulnerability CVE-2026-102010**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|libstdc++6||[CVE-2026-102010](https://avd.aquasec.com/nvd/cve-2026-102010)|\n\nA flaw was found in GCC. When an application calls the erase_if function on a binary heap priority queue in libstdc++, the library reallocates storage but fails to update its internal entry pointer. An attacker capable of triggering this operation can exploit this use-after-free condition, leading to a Denial of Service (DoS) via an application crash or potential memory corruption."
+              },
+              "properties": {
+                "precision": "very-high",
+                "security-severity": "5.5",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "MEDIUM"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-95619",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "gcc: libstdc++ integer overflow in `new` operator"
+              },
+              "fullDescription": {
+                "text": "A flaw was found in libstdc++. An integer overflow can occur when processing large inputs to the aligned operator new in the C++ library. This vulnerability could lead to an undersized memory allocation, potentially causing memory corruption or application instability."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2026-95619",
+              "help": {
+                "text": "Vulnerability CVE-2026-95619\nSeverity: MEDIUM\nPackage: libstdc++6\nFixed Version: \nLink: [CVE-2026-95619](https://avd.aquasec.com/nvd/cve-2026-95619)\nA flaw was found in libstdc++. An integer overflow can occur when processing large inputs to the aligned operator new in the C++ library. This vulnerability could lead to an undersized memory allocation, potentially causing memory corruption or application instability.",
+                "markdown": "**Vulnerability CVE-2026-95619**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|libstdc++6||[CVE-2026-95619](https://avd.aquasec.com/nvd/cve-2026-95619)|\n\nA flaw was found in libstdc++. An integer overflow can occur when processing large inputs to the aligned operator new in the C++ library. This vulnerability could lead to an undersized memory allocation, potentially causing memory corruption or application instability."
+              },
+              "properties": {
+                "precision": "very-high",
+                "security-severity": "5.5",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "MEDIUM"
+                ]
+              }
+            },
+            {
               "id": "CVE-2026-42250",
               "name": "OsPackageVulnerability",
               "shortDescription": {
@@ -307,6 +361,33 @@
               }
             },
             {
+              "id": "CVE-2026-86805",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "glibc: glibc: Privilege escalation and arbitrary code execution via TOCTOU race condition in dynamic loader"
+              },
+              "fullDescription": {
+                "text": "A time-of-check to time-of-use (TOCTOU) race condition in the dynamic loader (ld.so) of the GNU C Library (glibc) versions 2.14 through 2.44 allows a local attacker to escalate privileges. When expanding $ORIGIN in DT_RPATH for setuid/setgid (AT_SECURE) programs, glibc validates the lexically normalized search path against the trusted directories but then opens the raw, un-normalized path. On systems where the Linux fs.protected_hardlinks sysctl is disabled, a local attacker who hard-links such a program into an attacker-controlled directory and wins a race to replace an intermediate path component with a symbolic link can direct the loader outside the trusted directory, causing it to load an attacker-controlled shared object and execute arbitrary code with the elevated privileges of the program.\n\nExploitation requires an installed setuid or setgid binary whose DT_RPATH uses $ORIGIN followed by \"..\" traversal that normalizes into a trusted directory, and the ability to hard-link that binary and win the race by swapping a path component for a symbolic link. Major Linux-based OS distributions ship with fs.protected_hardlinks enabled by default and mitigate the vulnerability."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2026-86805",
+              "help": {
+                "text": "Vulnerability CVE-2026-86805\nSeverity: MEDIUM\nPackage: libc6\nFixed Version: \nLink: [CVE-2026-86805](https://avd.aquasec.com/nvd/cve-2026-86805)\nA time-of-check to time-of-use (TOCTOU) race condition in the dynamic loader (ld.so) of the GNU C Library (glibc) versions 2.14 through 2.44 allows a local attacker to escalate privileges. When expanding $ORIGIN in DT_RPATH for setuid/setgid (AT_SECURE) programs, glibc validates the lexically normalized search path against the trusted directories but then opens the raw, un-normalized path. On systems where the Linux fs.protected_hardlinks sysctl is disabled, a local attacker who hard-links such a program into an attacker-controlled directory and wins a race to replace an intermediate path component with a symbolic link can direct the loader outside the trusted directory, causing it to load an attacker-controlled shared object and execute arbitrary code with the elevated privileges of the program.\n\nExploitation requires an installed setuid or setgid binary whose DT_RPATH uses $ORIGIN followed by \"..\" traversal that normalizes into a trusted directory, and the ability to hard-link that binary and win the race by swapping a path component for a symbolic link. Major Linux-based OS distributions ship with fs.protected_hardlinks enabled by default and mitigate the vulnerability.",
+                "markdown": "**Vulnerability CVE-2026-86805**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|libc6||[CVE-2026-86805](https://avd.aquasec.com/nvd/cve-2026-86805)|\n\nA time-of-check to time-of-use (TOCTOU) race condition in the dynamic loader (ld.so) of the GNU C Library (glibc) versions 2.14 through 2.44 allows a local attacker to escalate privileges. When expanding $ORIGIN in DT_RPATH for setuid/setgid (AT_SECURE) programs, glibc validates the lexically normalized search path against the trusted directories but then opens the raw, un-normalized path. On systems where the Linux fs.protected_hardlinks sysctl is disabled, a local attacker who hard-links such a program into an attacker-controlled directory and wins a race to replace an intermediate path component with a symbolic link can direct the loader outside the trusted directory, causing it to load an attacker-controlled shared object and execute arbitrary code with the elevated privileges of the program.\n\nExploitation requires an installed setuid or setgid binary whose DT_RPATH uses $ORIGIN followed by \"..\" traversal that normalizes into a trusted directory, and the ability to hard-link that binary and win the race by swapping a path component for a symbolic link. Major Linux-based OS distributions ship with fs.protected_hardlinks enabled by default and mitigate the vulnerability."
+              },
+              "properties": {
+                "precision": "very-high",
+                "security-severity": "5.5",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "MEDIUM"
+                ]
+              }
+            },
+            {
               "id": "CVE-2026-89092",
               "name": "OsPackageVulnerability",
               "shortDescription": {
@@ -322,6 +403,33 @@
               "help": {
                 "text": "Vulnerability CVE-2026-89092\nSeverity: MEDIUM\nPackage: libc6\nFixed Version: \nLink: [CVE-2026-89092](https://avd.aquasec.com/nvd/cve-2026-89092)\nThe nscd service in the GNU C Library 2.3.4 onwards may crash due to a \nstack overflow when a malicious DNS server returns too large a response \nfor a DNS query, resulting in degraded DNS resolution for the system.\n\n\n\nExploitation of this bug needs a system that has nscd enabled and using \nan untrusted DNS server for name resolution, with the compromised DNS \nserver being capable of processing records large enough to result in a \nstack overflow in an nscd thread stack.  During experimentation, bind 9 \nwas unable to handle large records, but that could change in future or \nwith a different name server.  In typical installations, nscd is \nexecuted in an isolated context as its own user without a shell, due to \nwhich any compromise of that service is isolated.\n\n\n\nThere is a remote possibility of nscd cache corruption if an attacker \nmanages to get the stack pointer into a desired point in the heap, \npotentially resulting in other caches in nscd being overwritten with \ncorrupt data through the stack overflow, until the buggy code path \neventually results in a crash.\n\n\n\nFinally, a crash in nscd may result in performance degradation when \nresolving names, but it does not result in a denial of service.",
                 "markdown": "**Vulnerability CVE-2026-89092**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|libc6||[CVE-2026-89092](https://avd.aquasec.com/nvd/cve-2026-89092)|\n\nThe nscd service in the GNU C Library 2.3.4 onwards may crash due to a \nstack overflow when a malicious DNS server returns too large a response \nfor a DNS query, resulting in degraded DNS resolution for the system.\n\n\n\nExploitation of this bug needs a system that has nscd enabled and using \nan untrusted DNS server for name resolution, with the compromised DNS \nserver being capable of processing records large enough to result in a \nstack overflow in an nscd thread stack.  During experimentation, bind 9 \nwas unable to handle large records, but that could change in future or \nwith a different name server.  In typical installations, nscd is \nexecuted in an isolated context as its own user without a shell, due to \nwhich any compromise of that service is isolated.\n\n\n\nThere is a remote possibility of nscd cache corruption if an attacker \nmanages to get the stack pointer into a desired point in the heap, \npotentially resulting in other caches in nscd being overwritten with \ncorrupt data through the stack overflow, until the buggy code path \neventually results in a crash.\n\n\n\nFinally, a crash in nscd may result in performance degradation when \nresolving names, but it does not result in a denial of service."
+              },
+              "properties": {
+                "precision": "very-high",
+                "security-severity": "5.5",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "MEDIUM"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-95818",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "glibc: glibc: Local attacker can cause denial of service and information disclosure via stack-based buffer overflow."
+              },
+              "fullDescription": {
+                "text": "A stack-based buffer overflow in the dynamic loader (ld.so) of the GNU C Library (glibc) versions 2.14 through 2.44 allows a local attacker to crash or corrupt the memory of setuid/setgid (AT_SECURE) programs.\n\nWhen such a program's DT_RPATH or DT_RUNPATH begins with $ORIGIN and is followed by NUL or '/' the loader both reads past the end of the path buffer and writes past the end of a stack-allocated internal buffer. The corrupted loader stack can lead to a loader crash (denial of service) and limited disclosure of process memory."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2026-95818",
+              "help": {
+                "text": "Vulnerability CVE-2026-95818\nSeverity: MEDIUM\nPackage: libc6\nFixed Version: \nLink: [CVE-2026-95818](https://avd.aquasec.com/nvd/cve-2026-95818)\nA stack-based buffer overflow in the dynamic loader (ld.so) of the GNU C Library (glibc) versions 2.14 through 2.44 allows a local attacker to crash or corrupt the memory of setuid/setgid (AT_SECURE) programs.\n\nWhen such a program's DT_RPATH or DT_RUNPATH begins with $ORIGIN and is followed by NUL or '/' the loader both reads past the end of the path buffer and writes past the end of a stack-allocated internal buffer. The corrupted loader stack can lead to a loader crash (denial of service) and limited disclosure of process memory.",
+                "markdown": "**Vulnerability CVE-2026-95818**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|libc6||[CVE-2026-95818](https://avd.aquasec.com/nvd/cve-2026-95818)|\n\nA stack-based buffer overflow in the dynamic loader (ld.so) of the GNU C Library (glibc) versions 2.14 through 2.44 allows a local attacker to crash or corrupt the memory of setuid/setgid (AT_SECURE) programs.\n\nWhen such a program's DT_RPATH or DT_RUNPATH begins with $ORIGIN and is followed by NUL or '/' the loader both reads past the end of the path buffer and writes past the end of a stack-allocated internal buffer. The corrupted loader stack can lead to a loader crash (denial of service) and limited disclosure of process memory."
               },
               "properties": {
                 "precision": "very-high",
@@ -523,56 +631,29 @@
               }
             },
             {
-              "id": "CVE-2026-86805",
+              "id": "CVE-2026-97399",
               "name": "OsPackageVulnerability",
               "shortDescription": {
-                "text": ""
+                "text": "glibc: glibc: Denial of Service via out-of-bounds read in strncasecmp"
               },
               "fullDescription": {
-                "text": "A time-of-check to time-of-use (TOCTOU) race condition in the dynamic loader (ld.so) of the GNU C Library (glibc) versions 2.14 through 2.44 allows a local attacker to escalate privileges. When expanding $ORIGIN in DT_RPATH for setuid/setgid (AT_SECURE) programs, glibc validates the lexically normalized search path against the trusted directories but then opens the raw, un-normalized path. On systems where the Linux fs.protected_hardlinks sysctl is disabled, a local attacker who hard-links such a program into an attacker-controlled directory and wins a race to replace an intermediate path component with a symbolic link can direct the loader outside the trusted directory, causing it to load an attacker-controlled shared object and execute arbitrary code with the elevated privileges of the program.\n\nExploitation requires an installed setuid or setgid binary whose DT_RPATH uses $ORIGIN followed by \"..\" traversal that normalizes into a trusted directory, and the ability to hard-link that binary and win the race by swapping a path component for a symbolic link. Major Linux-based OS distributions ship with fs.protected_hardlinks enabled by default and mitigate the vulnerability."
+                "text": "The strncasecmp function in the GNU C Library 2.24 and later optimized for the Power8 architecture may read one byte beyond the input size limit, which may crash a program when that byte is not readable.\n\nThis condition may happen when the input strings to the strncasecmp function are attacker controlled in an application and they match all the way up to the edge of their page and the neighbouring page is either not mapped or is not readable."
               },
               "defaultConfiguration": {
                 "level": "note"
               },
-              "helpUri": "https://avd.aquasec.com/nvd/cve-2026-86805",
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2026-97399",
               "help": {
-                "text": "Vulnerability CVE-2026-86805\nSeverity: UNKNOWN\nPackage: libc6\nFixed Version: \nLink: [CVE-2026-86805](https://avd.aquasec.com/nvd/cve-2026-86805)\nA time-of-check to time-of-use (TOCTOU) race condition in the dynamic loader (ld.so) of the GNU C Library (glibc) versions 2.14 through 2.44 allows a local attacker to escalate privileges. When expanding $ORIGIN in DT_RPATH for setuid/setgid (AT_SECURE) programs, glibc validates the lexically normalized search path against the trusted directories but then opens the raw, un-normalized path. On systems where the Linux fs.protected_hardlinks sysctl is disabled, a local attacker who hard-links such a program into an attacker-controlled directory and wins a race to replace an intermediate path component with a symbolic link can direct the loader outside the trusted directory, causing it to load an attacker-controlled shared object and execute arbitrary code with the elevated privileges of the program.\n\nExploitation requires an installed setuid or setgid binary whose DT_RPATH uses $ORIGIN followed by \"..\" traversal that normalizes into a trusted directory, and the ability to hard-link that binary and win the race by swapping a path component for a symbolic link. Major Linux-based OS distributions ship with fs.protected_hardlinks enabled by default and mitigate the vulnerability.",
-                "markdown": "**Vulnerability CVE-2026-86805**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|UNKNOWN|libc6||[CVE-2026-86805](https://avd.aquasec.com/nvd/cve-2026-86805)|\n\nA time-of-check to time-of-use (TOCTOU) race condition in the dynamic loader (ld.so) of the GNU C Library (glibc) versions 2.14 through 2.44 allows a local attacker to escalate privileges. When expanding $ORIGIN in DT_RPATH for setuid/setgid (AT_SECURE) programs, glibc validates the lexically normalized search path against the trusted directories but then opens the raw, un-normalized path. On systems where the Linux fs.protected_hardlinks sysctl is disabled, a local attacker who hard-links such a program into an attacker-controlled directory and wins a race to replace an intermediate path component with a symbolic link can direct the loader outside the trusted directory, causing it to load an attacker-controlled shared object and execute arbitrary code with the elevated privileges of the program.\n\nExploitation requires an installed setuid or setgid binary whose DT_RPATH uses $ORIGIN followed by \"..\" traversal that normalizes into a trusted directory, and the ability to hard-link that binary and win the race by swapping a path component for a symbolic link. Major Linux-based OS distributions ship with fs.protected_hardlinks enabled by default and mitigate the vulnerability."
+                "text": "Vulnerability CVE-2026-97399\nSeverity: LOW\nPackage: libc6\nFixed Version: \nLink: [CVE-2026-97399](https://avd.aquasec.com/nvd/cve-2026-97399)\nThe strncasecmp function in the GNU C Library 2.24 and later optimized for the Power8 architecture may read one byte beyond the input size limit, which may crash a program when that byte is not readable.\n\nThis condition may happen when the input strings to the strncasecmp function are attacker controlled in an application and they match all the way up to the edge of their page and the neighbouring page is either not mapped or is not readable.",
+                "markdown": "**Vulnerability CVE-2026-97399**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|LOW|libc6||[CVE-2026-97399](https://avd.aquasec.com/nvd/cve-2026-97399)|\n\nThe strncasecmp function in the GNU C Library 2.24 and later optimized for the Power8 architecture may read one byte beyond the input size limit, which may crash a program when that byte is not readable.\n\nThis condition may happen when the input strings to the strncasecmp function are attacker controlled in an application and they match all the way up to the edge of their page and the neighbouring page is either not mapped or is not readable."
               },
               "properties": {
                 "precision": "very-high",
-                "security-severity": "0.0",
+                "security-severity": "2.0",
                 "tags": [
                   "vulnerability",
                   "security",
-                  "UNKNOWN"
-                ]
-              }
-            },
-            {
-              "id": "CVE-2026-95818",
-              "name": "OsPackageVulnerability",
-              "shortDescription": {
-                "text": ""
-              },
-              "fullDescription": {
-                "text": "A stack-based buffer overflow in the dynamic loader (ld.so) of the GNU C Library (glibc) versions 2.14 through 2.44 allows a local attacker to crash or corrupt the memory of setuid/setgid (AT_SECURE) programs.\n\nWhen such a program's DT_RPATH or DT_RUNPATH begins with $ORIGIN and is followed by NUL or '/' the loader both reads past the end of the path buffer and writes past the end of a stack-allocated internal buffer. The corrupted loader stack can lead to a loader crash (denial of service) and limited disclosure of process memory."
-              },
-              "defaultConfiguration": {
-                "level": "note"
-              },
-              "helpUri": "https://avd.aquasec.com/nvd/cve-2026-95818",
-              "help": {
-                "text": "Vulnerability CVE-2026-95818\nSeverity: UNKNOWN\nPackage: libc6\nFixed Version: \nLink: [CVE-2026-95818](https://avd.aquasec.com/nvd/cve-2026-95818)\nA stack-based buffer overflow in the dynamic loader (ld.so) of the GNU C Library (glibc) versions 2.14 through 2.44 allows a local attacker to crash or corrupt the memory of setuid/setgid (AT_SECURE) programs.\n\nWhen such a program's DT_RPATH or DT_RUNPATH begins with $ORIGIN and is followed by NUL or '/' the loader both reads past the end of the path buffer and writes past the end of a stack-allocated internal buffer. The corrupted loader stack can lead to a loader crash (denial of service) and limited disclosure of process memory.",
-                "markdown": "**Vulnerability CVE-2026-95818**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|UNKNOWN|libc6||[CVE-2026-95818](https://avd.aquasec.com/nvd/cve-2026-95818)|\n\nA stack-based buffer overflow in the dynamic loader (ld.so) of the GNU C Library (glibc) versions 2.14 through 2.44 allows a local attacker to crash or corrupt the memory of setuid/setgid (AT_SECURE) programs.\n\nWhen such a program's DT_RPATH or DT_RUNPATH begins with $ORIGIN and is followed by NUL or '/' the loader both reads past the end of the path buffer and writes past the end of a stack-allocated internal buffer. The corrupted loader stack can lead to a loader crash (denial of service) and limited disclosure of process memory."
-              },
-              "properties": {
-                "precision": "very-high",
-                "security-severity": "0.0",
-                "tags": [
-                  "vulnerability",
-                  "security",
-                  "UNKNOWN"
+                  "LOW"
                 ]
               }
             },
@@ -662,6 +743,33 @@
               }
             },
             {
+              "id": "CVE-2026-93990",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "expat: Expat: XML Injection via Malformed UTF-16 Input"
+              },
+              "fullDescription": {
+                "text": "Expat before 2.8.5 fails to validate that a high surrogate in UTF-16 input is followed by a low surrogate, allowing malformed UTF-16 sequences to be accepted. Attackers can supply UTF-16 encoded XML containing lone high surrogates that consume the following code unit, causing Expat to pass unpaired surrogates to applications built with XML_UNICODE and to silently replace input characters in other builds."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2026-93990",
+              "help": {
+                "text": "Vulnerability CVE-2026-93990\nSeverity: HIGH\nPackage: libexpat1\nFixed Version: \nLink: [CVE-2026-93990](https://avd.aquasec.com/nvd/cve-2026-93990)\nExpat before 2.8.5 fails to validate that a high surrogate in UTF-16 input is followed by a low surrogate, allowing malformed UTF-16 sequences to be accepted. Attackers can supply UTF-16 encoded XML containing lone high surrogates that consume the following code unit, causing Expat to pass unpaired surrogates to applications built with XML_UNICODE and to silently replace input characters in other builds.",
+                "markdown": "**Vulnerability CVE-2026-93990**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|libexpat1||[CVE-2026-93990](https://avd.aquasec.com/nvd/cve-2026-93990)|\n\nExpat before 2.8.5 fails to validate that a high surrogate in UTF-16 input is followed by a low surrogate, allowing malformed UTF-16 sequences to be accepted. Attackers can supply UTF-16 encoded XML containing lone high surrogates that consume the following code unit, causing Expat to pass unpaired surrogates to applications built with XML_UNICODE and to silently replace input characters in other builds."
+              },
+              "properties": {
+                "precision": "very-high",
+                "security-severity": "8.0",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
               "id": "CVE-2025-66382",
               "name": "OsPackageVulnerability",
               "shortDescription": {
@@ -691,29 +799,29 @@
               }
             },
             {
-              "id": "CVE-2026-93990",
+              "id": "CVE-2026-102633",
               "name": "OsPackageVulnerability",
               "shortDescription": {
-                "text": "Expat through 2.8.4 fails to validate low surrogates following high su ..."
+                "text": "expat: expat: Denial of Service via integer overflow in expat_realloc"
               },
               "fullDescription": {
-                "text": "Expat through 2.8.4 fails to validate low surrogates following high surrogates in UTF-16 input, allowing malformed UTF-16 sequences to be accepted. Attackers can craft UTF-16 encoded XML with lone high surrogates that consume following code units, hiding markup characters from the parser and enabling XML injection attacks."
+                "text": "libexpat versions 2.7.2 through 2.8.5 contain an integer overflow vulnerability in expat_realloc() function on 32-bit platforms when computing allocation sizes. Attackers supplying malicious XML to applications parsing with vulnerable libexpat can cause heap buffer overflow, memory corruption, or denial of service."
               },
               "defaultConfiguration": {
-                "level": "note"
+                "level": "warning"
               },
-              "helpUri": "https://avd.aquasec.com/nvd/cve-2026-93990",
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2026-102633",
               "help": {
-                "text": "Vulnerability CVE-2026-93990\nSeverity: UNKNOWN\nPackage: libexpat1\nFixed Version: \nLink: [CVE-2026-93990](https://avd.aquasec.com/nvd/cve-2026-93990)\nExpat through 2.8.4 fails to validate low surrogates following high surrogates in UTF-16 input, allowing malformed UTF-16 sequences to be accepted. Attackers can craft UTF-16 encoded XML with lone high surrogates that consume following code units, hiding markup characters from the parser and enabling XML injection attacks.",
-                "markdown": "**Vulnerability CVE-2026-93990**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|UNKNOWN|libexpat1||[CVE-2026-93990](https://avd.aquasec.com/nvd/cve-2026-93990)|\n\nExpat through 2.8.4 fails to validate low surrogates following high surrogates in UTF-16 input, allowing malformed UTF-16 sequences to be accepted. Attackers can craft UTF-16 encoded XML with lone high surrogates that consume following code units, hiding markup characters from the parser and enabling XML injection attacks."
+                "text": "Vulnerability CVE-2026-102633\nSeverity: MEDIUM\nPackage: libexpat1\nFixed Version: \nLink: [CVE-2026-102633](https://avd.aquasec.com/nvd/cve-2026-102633)\nlibexpat versions 2.7.2 through 2.8.5 contain an integer overflow vulnerability in expat_realloc() function on 32-bit platforms when computing allocation sizes. Attackers supplying malicious XML to applications parsing with vulnerable libexpat can cause heap buffer overflow, memory corruption, or denial of service.",
+                "markdown": "**Vulnerability CVE-2026-102633**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|libexpat1||[CVE-2026-102633](https://avd.aquasec.com/nvd/cve-2026-102633)|\n\nlibexpat versions 2.7.2 through 2.8.5 contain an integer overflow vulnerability in expat_realloc() function on 32-bit platforms when computing allocation sizes. Attackers supplying malicious XML to applications parsing with vulnerable libexpat can cause heap buffer overflow, memory corruption, or denial of service."
               },
               "properties": {
                 "precision": "very-high",
-                "security-severity": "0.0",
+                "security-severity": "5.5",
                 "tags": [
                   "vulnerability",
                   "security",
-                  "UNKNOWN"
+                  "MEDIUM"
                 ]
               }
             },
@@ -938,6 +1046,33 @@
               }
             },
             {
+              "id": "CVE-2026-19553",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "python: python: Certificate verification bypass via missing server_hostname validation in SSLContext.wrap_bio()"
+              },
+              "fullDescription": {
+                "text": "ssl.SSLContext.wrap_bio() didn't require the server_hostname argument\nto not be None if ssl.SSLContext.check_hostname was set. Due to a\nmissing parameter check in SSLObject, if the server_hostname argument\nisn't supplied then hostname verification would be silently skipped.\n\n\nThis defect could lead to programs where certificate hostname verification\n*appeared* to be succeeding with SSLContext.check_hostname = True and no\nValueError being raised due to misconfiguration.\n\n\nIf the program passes a server_hostname value that isn't an empty string\nor None to any of these APIs then certificate hostname verification\nproceeds as expected and the program is not affected by this vulnerability.\n\n\nMitigating this vulnerability doesn't require updating Python or applying\nthe patch. To mitigate, pass a valid non-None and non-empty\nserver_hostname value to SSLContext.wrap_bio(),\nasyncio.create_connection(), or asyncio.loop.start_tls() and\ncertificate hostname verification will proceed as expected. Upgrading to\nthe latest version of Python or applying the patch only changes the\nbehavior from silently skipping hostname verification to raising a\nValueError, similar to SSLContext.wrap_socket(), when server_hostname\nisn't supplied."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2026-19553",
+              "help": {
+                "text": "Vulnerability CVE-2026-19553\nSeverity: HIGH\nPackage: python3.13-venv\nFixed Version: \nLink: [CVE-2026-19553](https://avd.aquasec.com/nvd/cve-2026-19553)\nssl.SSLContext.wrap_bio() didn't require the server_hostname argument\nto not be None if ssl.SSLContext.check_hostname was set. Due to a\nmissing parameter check in SSLObject, if the server_hostname argument\nisn't supplied then hostname verification would be silently skipped.\n\n\nThis defect could lead to programs where certificate hostname verification\n*appeared* to be succeeding with SSLContext.check_hostname = True and no\nValueError being raised due to misconfiguration.\n\n\nIf the program passes a server_hostname value that isn't an empty string\nor None to any of these APIs then certificate hostname verification\nproceeds as expected and the program is not affected by this vulnerability.\n\n\nMitigating this vulnerability doesn't require updating Python or applying\nthe patch. To mitigate, pass a valid non-None and non-empty\nserver_hostname value to SSLContext.wrap_bio(),\nasyncio.create_connection(), or asyncio.loop.start_tls() and\ncertificate hostname verification will proceed as expected. Upgrading to\nthe latest version of Python or applying the patch only changes the\nbehavior from silently skipping hostname verification to raising a\nValueError, similar to SSLContext.wrap_socket(), when server_hostname\nisn't supplied.",
+                "markdown": "**Vulnerability CVE-2026-19553**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|python3.13-venv||[CVE-2026-19553](https://avd.aquasec.com/nvd/cve-2026-19553)|\n\nssl.SSLContext.wrap_bio() didn't require the server_hostname argument\nto not be None if ssl.SSLContext.check_hostname was set. Due to a\nmissing parameter check in SSLObject, if the server_hostname argument\nisn't supplied then hostname verification would be silently skipped.\n\n\nThis defect could lead to programs where certificate hostname verification\n*appeared* to be succeeding with SSLContext.check_hostname = True and no\nValueError being raised due to misconfiguration.\n\n\nIf the program passes a server_hostname value that isn't an empty string\nor None to any of these APIs then certificate hostname verification\nproceeds as expected and the program is not affected by this vulnerability.\n\n\nMitigating this vulnerability doesn't require updating Python or applying\nthe patch. To mitigate, pass a valid non-None and non-empty\nserver_hostname value to SSLContext.wrap_bio(),\nasyncio.create_connection(), or asyncio.loop.start_tls() and\ncertificate hostname verification will proceed as expected. Upgrading to\nthe latest version of Python or applying the patch only changes the\nbehavior from silently skipping hostname verification to raising a\nValueError, similar to SSLContext.wrap_socket(), when server_hostname\nisn't supplied."
+              },
+              "properties": {
+                "precision": "very-high",
+                "security-severity": "8.0",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "HIGH"
+                ]
+              }
+            },
+            {
               "id": "CVE-2026-7210",
               "name": "OsPackageVulnerability",
               "shortDescription": {
@@ -1065,6 +1200,33 @@
               "help": {
                 "text": "Vulnerability CVE-2025-15367\nSeverity: MEDIUM\nPackage: python3.13-venv\nFixed Version: \nLink: [CVE-2025-15367](https://avd.aquasec.com/nvd/cve-2025-15367)\nThe poplib module, when passed a user-controlled command, can have\nadditional commands injected using newlines. Mitigation rejects commands\ncontaining control characters.",
                 "markdown": "**Vulnerability CVE-2025-15367**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|python3.13-venv||[CVE-2025-15367](https://avd.aquasec.com/nvd/cve-2025-15367)|\n\nThe poplib module, when passed a user-controlled command, can have\nadditional commands injected using newlines. Mitigation rejects commands\ncontaining control characters."
+              },
+              "properties": {
+                "precision": "very-high",
+                "security-severity": "5.5",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "MEDIUM"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-12345",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "python: python: Arbitrary file deletion via race condition during temporary directory cleanup"
+              },
+              "fullDescription": {
+                "text": "The cleanup of tempfile.TemporaryDirectory is vulnerable to a race condition. An attacker who can modify the tree during cleanup can replace a directory with a symbolic link, causing files outside of the temporary directory to be deleted or have their permissions and file flags reset, with the privileges of the process performing the cleanup. Note that platforms where shutil.rmtree.avoids_symlink_attacks is false, remain affected, and file flags may still be reset outside of the tree on all platforms."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2026-12345",
+              "help": {
+                "text": "Vulnerability CVE-2026-12345\nSeverity: MEDIUM\nPackage: python3.13-venv\nFixed Version: \nLink: [CVE-2026-12345](https://avd.aquasec.com/nvd/cve-2026-12345)\nThe cleanup of tempfile.TemporaryDirectory is vulnerable to a race condition. An attacker who can modify the tree during cleanup can replace a directory with a symbolic link, causing files outside of the temporary directory to be deleted or have their permissions and file flags reset, with the privileges of the process performing the cleanup. Note that platforms where shutil.rmtree.avoids_symlink_attacks is false, remain affected, and file flags may still be reset outside of the tree on all platforms.",
+                "markdown": "**Vulnerability CVE-2026-12345**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|python3.13-venv||[CVE-2026-12345](https://avd.aquasec.com/nvd/cve-2026-12345)|\n\nThe cleanup of tempfile.TemporaryDirectory is vulnerable to a race condition. An attacker who can modify the tree during cleanup can replace a directory with a symbolic link, causing files outside of the temporary directory to be deleted or have their permissions and file flags reset, with the privileges of the process performing the cleanup. Note that platforms where shutil.rmtree.avoids_symlink_attacks is false, remain affected, and file flags may still be reset outside of the tree on all platforms."
               },
               "properties": {
                 "precision": "very-high",
@@ -1289,6 +1451,33 @@
                   "vulnerability",
                   "security",
                   "LOW"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2026-19445",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "A remote, unauthenticated TLS client can make a server crash or call t ..."
+              },
+              "fullDescription": {
+                "text": "A remote, unauthenticated TLS client can make a server crash or call\nthrough a freed pointer if its sni_callback assigns a different context to\nSSLSocket.context (the documented way to select a certificate per server\nname) and nothing else keeps the original ssl.SSLContext alive. Typical\ncases are servers that create an SSLContext per connection or replace it\nwhile connections are open; servers that wrap their listening socket with\nit are not affected.\n\n\nMitigation: keep a reference to every SSLContext that sets sni_callback for\nthe lifetime of the server. TLS clients are not affected."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "helpUri": "https://avd.aquasec.com/nvd/cve-2026-19445",
+              "help": {
+                "text": "Vulnerability CVE-2026-19445\nSeverity: UNKNOWN\nPackage: python3.13-venv\nFixed Version: \nLink: [CVE-2026-19445](https://avd.aquasec.com/nvd/cve-2026-19445)\nA remote, unauthenticated TLS client can make a server crash or call\nthrough a freed pointer if its sni_callback assigns a different context to\nSSLSocket.context (the documented way to select a certificate per server\nname) and nothing else keeps the original ssl.SSLContext alive. Typical\ncases are servers that create an SSLContext per connection or replace it\nwhile connections are open; servers that wrap their listening socket with\nit are not affected.\n\n\nMitigation: keep a reference to every SSLContext that sets sni_callback for\nthe lifetime of the server. TLS clients are not affected.",
+                "markdown": "**Vulnerability CVE-2026-19445**\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|UNKNOWN|python3.13-venv||[CVE-2026-19445](https://avd.aquasec.com/nvd/cve-2026-19445)|\n\nA remote, unauthenticated TLS client can make a server crash or call\nthrough a freed pointer if its sni_callback assigns a different context to\nSSLSocket.context (the documented way to select a certificate per server\nname) and nothing else keeps the original ssl.SSLContext alive. Typical\ncases are servers that create an SSLContext per connection or replace it\nwhile connections are open; servers that wrap their listening socket with\nit are not affected.\n\n\nMitigation: keep a reference to every SSLContext that sets sni_callback for\nthe lifetime of the server. TLS clients are not affected."
+              },
+              "properties": {
+                "precision": "very-high",
+                "security-severity": "0.0",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "UNKNOWN"
                 ]
               }
             },
@@ -1626,8 +1815,62 @@
       },
       "results": [
         {
-          "ruleId": "CVE-2026-42250",
+          "ruleId": "CVE-2026-102010",
           "ruleIndex": 0,
+          "level": "warning",
+          "message": {
+            "text": "Package: gcc-14-base\nInstalled Version: 14.2.0-19\nVulnerability CVE-2026-102010\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-102010](https://avd.aquasec.com/nvd/cve-2026-102010)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pglcorporate-dev/magic-number",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "pglcorporate-dev/magic-number: gcc-14-base@14.2.0-19"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-95619",
+          "ruleIndex": 1,
+          "level": "warning",
+          "message": {
+            "text": "Package: gcc-14-base\nInstalled Version: 14.2.0-19\nVulnerability CVE-2026-95619\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-95619](https://avd.aquasec.com/nvd/cve-2026-95619)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pglcorporate-dev/magic-number",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "pglcorporate-dev/magic-number: gcc-14-base@14.2.0-19"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-42250",
+          "ruleIndex": 2,
           "level": "warning",
           "message": {
             "text": "Package: libbz2-1.0\nInstalled Version: 1.0.8-6\nVulnerability CVE-2026-42250\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-42250](https://avd.aquasec.com/nvd/cve-2026-42250)"
@@ -1654,7 +1897,7 @@
         },
         {
           "ruleId": "CVE-2026-18374",
-          "ruleIndex": 1,
+          "ruleIndex": 3,
           "level": "warning",
           "message": {
             "text": "Package: libc-bin\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2026-18374\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-18374](https://avd.aquasec.com/nvd/cve-2026-18374)"
@@ -1681,7 +1924,7 @@
         },
         {
           "ruleId": "CVE-2026-19499",
-          "ruleIndex": 2,
+          "ruleIndex": 4,
           "level": "warning",
           "message": {
             "text": "Package: libc-bin\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2026-19499\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-19499](https://avd.aquasec.com/nvd/cve-2026-19499)"
@@ -1708,7 +1951,7 @@
         },
         {
           "ruleId": "CVE-2026-19542",
-          "ruleIndex": 3,
+          "ruleIndex": 5,
           "level": "warning",
           "message": {
             "text": "Package: libc-bin\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2026-19542\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-19542](https://avd.aquasec.com/nvd/cve-2026-19542)"
@@ -1735,7 +1978,7 @@
         },
         {
           "ruleId": "CVE-2026-5435",
-          "ruleIndex": 4,
+          "ruleIndex": 6,
           "level": "warning",
           "message": {
             "text": "Package: libc-bin\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2026-5435\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-5435](https://avd.aquasec.com/nvd/cve-2026-5435)"
@@ -1762,7 +2005,7 @@
         },
         {
           "ruleId": "CVE-2026-6238",
-          "ruleIndex": 5,
+          "ruleIndex": 7,
           "level": "warning",
           "message": {
             "text": "Package: libc-bin\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2026-6238\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-6238](https://avd.aquasec.com/nvd/cve-2026-6238)"
@@ -1789,7 +2032,7 @@
         },
         {
           "ruleId": "CVE-2026-6368",
-          "ruleIndex": 6,
+          "ruleIndex": 8,
           "level": "warning",
           "message": {
             "text": "Package: libc-bin\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2026-6368\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-6368](https://avd.aquasec.com/nvd/cve-2026-6368)"
@@ -1816,7 +2059,7 @@
         },
         {
           "ruleId": "CVE-2026-6791",
-          "ruleIndex": 7,
+          "ruleIndex": 9,
           "level": "warning",
           "message": {
             "text": "Package: libc-bin\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2026-6791\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-6791](https://avd.aquasec.com/nvd/cve-2026-6791)"
@@ -1843,7 +2086,7 @@
         },
         {
           "ruleId": "CVE-2026-77117",
-          "ruleIndex": 8,
+          "ruleIndex": 10,
           "level": "warning",
           "message": {
             "text": "Package: libc-bin\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2026-77117\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-77117](https://avd.aquasec.com/nvd/cve-2026-77117)"
@@ -1870,7 +2113,7 @@
         },
         {
           "ruleId": "CVE-2026-80489",
-          "ruleIndex": 9,
+          "ruleIndex": 11,
           "level": "warning",
           "message": {
             "text": "Package: libc-bin\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2026-80489\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-80489](https://avd.aquasec.com/nvd/cve-2026-80489)"
@@ -1897,7 +2140,7 @@
         },
         {
           "ruleId": "CVE-2026-8674",
-          "ruleIndex": 10,
+          "ruleIndex": 12,
           "level": "warning",
           "message": {
             "text": "Package: libc-bin\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2026-8674\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-8674](https://avd.aquasec.com/nvd/cve-2026-8674)"
@@ -1923,8 +2166,35 @@
           ]
         },
         {
+          "ruleId": "CVE-2026-86805",
+          "ruleIndex": 13,
+          "level": "warning",
+          "message": {
+            "text": "Package: libc-bin\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2026-86805\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-86805](https://avd.aquasec.com/nvd/cve-2026-86805)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pglcorporate-dev/magic-number",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "pglcorporate-dev/magic-number: libc-bin@2.41-12+deb13u4"
+              }
+            }
+          ]
+        },
+        {
           "ruleId": "CVE-2026-89092",
-          "ruleIndex": 11,
+          "ruleIndex": 14,
           "level": "warning",
           "message": {
             "text": "Package: libc-bin\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2026-89092\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-89092](https://avd.aquasec.com/nvd/cve-2026-89092)"
@@ -1950,8 +2220,35 @@
           ]
         },
         {
+          "ruleId": "CVE-2026-95818",
+          "ruleIndex": 15,
+          "level": "warning",
+          "message": {
+            "text": "Package: libc-bin\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2026-95818\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-95818](https://avd.aquasec.com/nvd/cve-2026-95818)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pglcorporate-dev/magic-number",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "pglcorporate-dev/magic-number: libc-bin@2.41-12+deb13u4"
+              }
+            }
+          ]
+        },
+        {
           "ruleId": "CVE-2010-4756",
-          "ruleIndex": 12,
+          "ruleIndex": 16,
           "level": "note",
           "message": {
             "text": "Package: libc-bin\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2010-4756\nSeverity: LOW\nFixed Version: \nLink: [CVE-2010-4756](https://avd.aquasec.com/nvd/cve-2010-4756)"
@@ -1978,7 +2275,7 @@
         },
         {
           "ruleId": "CVE-2018-20796",
-          "ruleIndex": 13,
+          "ruleIndex": 17,
           "level": "note",
           "message": {
             "text": "Package: libc-bin\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2018-20796\nSeverity: LOW\nFixed Version: \nLink: [CVE-2018-20796](https://avd.aquasec.com/nvd/cve-2018-20796)"
@@ -2005,7 +2302,7 @@
         },
         {
           "ruleId": "CVE-2019-1010022",
-          "ruleIndex": 14,
+          "ruleIndex": 18,
           "level": "note",
           "message": {
             "text": "Package: libc-bin\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2019-1010022\nSeverity: LOW\nFixed Version: \nLink: [CVE-2019-1010022](https://avd.aquasec.com/nvd/cve-2019-1010022)"
@@ -2032,7 +2329,7 @@
         },
         {
           "ruleId": "CVE-2019-1010023",
-          "ruleIndex": 15,
+          "ruleIndex": 19,
           "level": "note",
           "message": {
             "text": "Package: libc-bin\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2019-1010023\nSeverity: LOW\nFixed Version: \nLink: [CVE-2019-1010023](https://avd.aquasec.com/nvd/cve-2019-1010023)"
@@ -2059,7 +2356,7 @@
         },
         {
           "ruleId": "CVE-2019-1010024",
-          "ruleIndex": 16,
+          "ruleIndex": 20,
           "level": "note",
           "message": {
             "text": "Package: libc-bin\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2019-1010024\nSeverity: LOW\nFixed Version: \nLink: [CVE-2019-1010024](https://avd.aquasec.com/nvd/cve-2019-1010024)"
@@ -2086,7 +2383,7 @@
         },
         {
           "ruleId": "CVE-2019-1010025",
-          "ruleIndex": 17,
+          "ruleIndex": 21,
           "level": "note",
           "message": {
             "text": "Package: libc-bin\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2019-1010025\nSeverity: LOW\nFixed Version: \nLink: [CVE-2019-1010025](https://avd.aquasec.com/nvd/cve-2019-1010025)"
@@ -2113,7 +2410,7 @@
         },
         {
           "ruleId": "CVE-2019-9192",
-          "ruleIndex": 18,
+          "ruleIndex": 22,
           "level": "note",
           "message": {
             "text": "Package: libc-bin\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2019-9192\nSeverity: LOW\nFixed Version: \nLink: [CVE-2019-9192](https://avd.aquasec.com/nvd/cve-2019-9192)"
@@ -2139,38 +2436,11 @@
           ]
         },
         {
-          "ruleId": "CVE-2026-86805",
-          "ruleIndex": 19,
+          "ruleId": "CVE-2026-97399",
+          "ruleIndex": 23,
           "level": "note",
           "message": {
-            "text": "Package: libc-bin\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2026-86805\nSeverity: UNKNOWN\nFixed Version: \nLink: [CVE-2026-86805](https://avd.aquasec.com/nvd/cve-2026-86805)"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "pglcorporate-dev/magic-number",
-                  "uriBaseId": "ROOTPATH"
-                },
-                "region": {
-                  "startLine": 1,
-                  "startColumn": 1,
-                  "endLine": 1,
-                  "endColumn": 1
-                }
-              },
-              "message": {
-                "text": "pglcorporate-dev/magic-number: libc-bin@2.41-12+deb13u4"
-              }
-            }
-          ]
-        },
-        {
-          "ruleId": "CVE-2026-95818",
-          "ruleIndex": 20,
-          "level": "note",
-          "message": {
-            "text": "Package: libc-bin\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2026-95818\nSeverity: UNKNOWN\nFixed Version: \nLink: [CVE-2026-95818](https://avd.aquasec.com/nvd/cve-2026-95818)"
+            "text": "Package: libc-bin\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2026-97399\nSeverity: LOW\nFixed Version: \nLink: [CVE-2026-97399](https://avd.aquasec.com/nvd/cve-2026-97399)"
           },
           "locations": [
             {
@@ -2194,7 +2464,7 @@
         },
         {
           "ruleId": "CVE-2026-18374",
-          "ruleIndex": 1,
+          "ruleIndex": 3,
           "level": "warning",
           "message": {
             "text": "Package: libc6\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2026-18374\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-18374](https://avd.aquasec.com/nvd/cve-2026-18374)"
@@ -2221,7 +2491,7 @@
         },
         {
           "ruleId": "CVE-2026-19499",
-          "ruleIndex": 2,
+          "ruleIndex": 4,
           "level": "warning",
           "message": {
             "text": "Package: libc6\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2026-19499\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-19499](https://avd.aquasec.com/nvd/cve-2026-19499)"
@@ -2248,7 +2518,7 @@
         },
         {
           "ruleId": "CVE-2026-19542",
-          "ruleIndex": 3,
+          "ruleIndex": 5,
           "level": "warning",
           "message": {
             "text": "Package: libc6\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2026-19542\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-19542](https://avd.aquasec.com/nvd/cve-2026-19542)"
@@ -2275,7 +2545,7 @@
         },
         {
           "ruleId": "CVE-2026-5435",
-          "ruleIndex": 4,
+          "ruleIndex": 6,
           "level": "warning",
           "message": {
             "text": "Package: libc6\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2026-5435\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-5435](https://avd.aquasec.com/nvd/cve-2026-5435)"
@@ -2302,7 +2572,7 @@
         },
         {
           "ruleId": "CVE-2026-6238",
-          "ruleIndex": 5,
+          "ruleIndex": 7,
           "level": "warning",
           "message": {
             "text": "Package: libc6\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2026-6238\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-6238](https://avd.aquasec.com/nvd/cve-2026-6238)"
@@ -2329,7 +2599,7 @@
         },
         {
           "ruleId": "CVE-2026-6368",
-          "ruleIndex": 6,
+          "ruleIndex": 8,
           "level": "warning",
           "message": {
             "text": "Package: libc6\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2026-6368\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-6368](https://avd.aquasec.com/nvd/cve-2026-6368)"
@@ -2356,7 +2626,7 @@
         },
         {
           "ruleId": "CVE-2026-6791",
-          "ruleIndex": 7,
+          "ruleIndex": 9,
           "level": "warning",
           "message": {
             "text": "Package: libc6\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2026-6791\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-6791](https://avd.aquasec.com/nvd/cve-2026-6791)"
@@ -2383,7 +2653,7 @@
         },
         {
           "ruleId": "CVE-2026-77117",
-          "ruleIndex": 8,
+          "ruleIndex": 10,
           "level": "warning",
           "message": {
             "text": "Package: libc6\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2026-77117\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-77117](https://avd.aquasec.com/nvd/cve-2026-77117)"
@@ -2410,7 +2680,7 @@
         },
         {
           "ruleId": "CVE-2026-80489",
-          "ruleIndex": 9,
+          "ruleIndex": 11,
           "level": "warning",
           "message": {
             "text": "Package: libc6\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2026-80489\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-80489](https://avd.aquasec.com/nvd/cve-2026-80489)"
@@ -2437,7 +2707,7 @@
         },
         {
           "ruleId": "CVE-2026-8674",
-          "ruleIndex": 10,
+          "ruleIndex": 12,
           "level": "warning",
           "message": {
             "text": "Package: libc6\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2026-8674\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-8674](https://avd.aquasec.com/nvd/cve-2026-8674)"
@@ -2463,8 +2733,35 @@
           ]
         },
         {
+          "ruleId": "CVE-2026-86805",
+          "ruleIndex": 13,
+          "level": "warning",
+          "message": {
+            "text": "Package: libc6\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2026-86805\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-86805](https://avd.aquasec.com/nvd/cve-2026-86805)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pglcorporate-dev/magic-number",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "pglcorporate-dev/magic-number: libc6@2.41-12+deb13u4"
+              }
+            }
+          ]
+        },
+        {
           "ruleId": "CVE-2026-89092",
-          "ruleIndex": 11,
+          "ruleIndex": 14,
           "level": "warning",
           "message": {
             "text": "Package: libc6\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2026-89092\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-89092](https://avd.aquasec.com/nvd/cve-2026-89092)"
@@ -2490,8 +2787,35 @@
           ]
         },
         {
+          "ruleId": "CVE-2026-95818",
+          "ruleIndex": 15,
+          "level": "warning",
+          "message": {
+            "text": "Package: libc6\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2026-95818\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-95818](https://avd.aquasec.com/nvd/cve-2026-95818)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pglcorporate-dev/magic-number",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "pglcorporate-dev/magic-number: libc6@2.41-12+deb13u4"
+              }
+            }
+          ]
+        },
+        {
           "ruleId": "CVE-2010-4756",
-          "ruleIndex": 12,
+          "ruleIndex": 16,
           "level": "note",
           "message": {
             "text": "Package: libc6\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2010-4756\nSeverity: LOW\nFixed Version: \nLink: [CVE-2010-4756](https://avd.aquasec.com/nvd/cve-2010-4756)"
@@ -2518,7 +2842,7 @@
         },
         {
           "ruleId": "CVE-2018-20796",
-          "ruleIndex": 13,
+          "ruleIndex": 17,
           "level": "note",
           "message": {
             "text": "Package: libc6\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2018-20796\nSeverity: LOW\nFixed Version: \nLink: [CVE-2018-20796](https://avd.aquasec.com/nvd/cve-2018-20796)"
@@ -2545,7 +2869,7 @@
         },
         {
           "ruleId": "CVE-2019-1010022",
-          "ruleIndex": 14,
+          "ruleIndex": 18,
           "level": "note",
           "message": {
             "text": "Package: libc6\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2019-1010022\nSeverity: LOW\nFixed Version: \nLink: [CVE-2019-1010022](https://avd.aquasec.com/nvd/cve-2019-1010022)"
@@ -2572,7 +2896,7 @@
         },
         {
           "ruleId": "CVE-2019-1010023",
-          "ruleIndex": 15,
+          "ruleIndex": 19,
           "level": "note",
           "message": {
             "text": "Package: libc6\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2019-1010023\nSeverity: LOW\nFixed Version: \nLink: [CVE-2019-1010023](https://avd.aquasec.com/nvd/cve-2019-1010023)"
@@ -2599,7 +2923,7 @@
         },
         {
           "ruleId": "CVE-2019-1010024",
-          "ruleIndex": 16,
+          "ruleIndex": 20,
           "level": "note",
           "message": {
             "text": "Package: libc6\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2019-1010024\nSeverity: LOW\nFixed Version: \nLink: [CVE-2019-1010024](https://avd.aquasec.com/nvd/cve-2019-1010024)"
@@ -2626,7 +2950,7 @@
         },
         {
           "ruleId": "CVE-2019-1010025",
-          "ruleIndex": 17,
+          "ruleIndex": 21,
           "level": "note",
           "message": {
             "text": "Package: libc6\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2019-1010025\nSeverity: LOW\nFixed Version: \nLink: [CVE-2019-1010025](https://avd.aquasec.com/nvd/cve-2019-1010025)"
@@ -2653,7 +2977,7 @@
         },
         {
           "ruleId": "CVE-2019-9192",
-          "ruleIndex": 18,
+          "ruleIndex": 22,
           "level": "note",
           "message": {
             "text": "Package: libc6\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2019-9192\nSeverity: LOW\nFixed Version: \nLink: [CVE-2019-9192](https://avd.aquasec.com/nvd/cve-2019-9192)"
@@ -2679,38 +3003,11 @@
           ]
         },
         {
-          "ruleId": "CVE-2026-86805",
-          "ruleIndex": 19,
+          "ruleId": "CVE-2026-97399",
+          "ruleIndex": 23,
           "level": "note",
           "message": {
-            "text": "Package: libc6\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2026-86805\nSeverity: UNKNOWN\nFixed Version: \nLink: [CVE-2026-86805](https://avd.aquasec.com/nvd/cve-2026-86805)"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "pglcorporate-dev/magic-number",
-                  "uriBaseId": "ROOTPATH"
-                },
-                "region": {
-                  "startLine": 1,
-                  "startColumn": 1,
-                  "endLine": 1,
-                  "endColumn": 1
-                }
-              },
-              "message": {
-                "text": "pglcorporate-dev/magic-number: libc6@2.41-12+deb13u4"
-              }
-            }
-          ]
-        },
-        {
-          "ruleId": "CVE-2026-95818",
-          "ruleIndex": 20,
-          "level": "note",
-          "message": {
-            "text": "Package: libc6\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2026-95818\nSeverity: UNKNOWN\nFixed Version: \nLink: [CVE-2026-95818](https://avd.aquasec.com/nvd/cve-2026-95818)"
+            "text": "Package: libc6\nInstalled Version: 2.41-12+deb13u4\nVulnerability CVE-2026-97399\nSeverity: LOW\nFixed Version: \nLink: [CVE-2026-97399](https://avd.aquasec.com/nvd/cve-2026-97399)"
           },
           "locations": [
             {
@@ -2734,7 +3031,7 @@
         },
         {
           "ruleId": "CVE-2026-66046",
-          "ruleIndex": 21,
+          "ruleIndex": 24,
           "level": "error",
           "message": {
             "text": "Package: libexpat1\nInstalled Version: 2.8.3-1~deb13u1\nVulnerability CVE-2026-66046\nSeverity: HIGH\nFixed Version: \nLink: [CVE-2026-66046](https://avd.aquasec.com/nvd/cve-2026-66046)"
@@ -2761,7 +3058,7 @@
         },
         {
           "ruleId": "CVE-2026-76956",
-          "ruleIndex": 22,
+          "ruleIndex": 25,
           "level": "error",
           "message": {
             "text": "Package: libexpat1\nInstalled Version: 2.8.3-1~deb13u1\nVulnerability CVE-2026-76956\nSeverity: HIGH\nFixed Version: \nLink: [CVE-2026-76956](https://avd.aquasec.com/nvd/cve-2026-76956)"
@@ -2788,7 +3085,7 @@
         },
         {
           "ruleId": "CVE-2026-76957",
-          "ruleIndex": 23,
+          "ruleIndex": 26,
           "level": "error",
           "message": {
             "text": "Package: libexpat1\nInstalled Version: 2.8.3-1~deb13u1\nVulnerability CVE-2026-76957\nSeverity: HIGH\nFixed Version: \nLink: [CVE-2026-76957](https://avd.aquasec.com/nvd/cve-2026-76957)"
@@ -2814,8 +3111,35 @@
           ]
         },
         {
+          "ruleId": "CVE-2026-93990",
+          "ruleIndex": 27,
+          "level": "error",
+          "message": {
+            "text": "Package: libexpat1\nInstalled Version: 2.8.3-1~deb13u1\nVulnerability CVE-2026-93990\nSeverity: HIGH\nFixed Version: \nLink: [CVE-2026-93990](https://avd.aquasec.com/nvd/cve-2026-93990)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pglcorporate-dev/magic-number",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "pglcorporate-dev/magic-number: libexpat1@2.8.3-1~deb13u1"
+              }
+            }
+          ]
+        },
+        {
           "ruleId": "CVE-2025-66382",
-          "ruleIndex": 24,
+          "ruleIndex": 28,
           "level": "warning",
           "message": {
             "text": "Package: libexpat1\nInstalled Version: 2.8.3-1~deb13u1\nVulnerability CVE-2025-66382\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2025-66382](https://avd.aquasec.com/nvd/cve-2025-66382)"
@@ -2841,11 +3165,11 @@
           ]
         },
         {
-          "ruleId": "CVE-2026-93990",
-          "ruleIndex": 25,
-          "level": "note",
+          "ruleId": "CVE-2026-102633",
+          "ruleIndex": 29,
+          "level": "warning",
           "message": {
-            "text": "Package: libexpat1\nInstalled Version: 2.8.3-1~deb13u1\nVulnerability CVE-2026-93990\nSeverity: UNKNOWN\nFixed Version: \nLink: [CVE-2026-93990](https://avd.aquasec.com/nvd/cve-2026-93990)"
+            "text": "Package: libexpat1\nInstalled Version: 2.8.3-1~deb13u1\nVulnerability CVE-2026-102633\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-102633](https://avd.aquasec.com/nvd/cve-2026-102633)"
           },
           "locations": [
             {
@@ -2868,8 +3192,116 @@
           ]
         },
         {
+          "ruleId": "CVE-2026-102010",
+          "ruleIndex": 0,
+          "level": "warning",
+          "message": {
+            "text": "Package: libgcc-s1\nInstalled Version: 14.2.0-19\nVulnerability CVE-2026-102010\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-102010](https://avd.aquasec.com/nvd/cve-2026-102010)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pglcorporate-dev/magic-number",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "pglcorporate-dev/magic-number: libgcc-s1@14.2.0-19"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-95619",
+          "ruleIndex": 1,
+          "level": "warning",
+          "message": {
+            "text": "Package: libgcc-s1\nInstalled Version: 14.2.0-19\nVulnerability CVE-2026-95619\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-95619](https://avd.aquasec.com/nvd/cve-2026-95619)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pglcorporate-dev/magic-number",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "pglcorporate-dev/magic-number: libgcc-s1@14.2.0-19"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-102010",
+          "ruleIndex": 0,
+          "level": "warning",
+          "message": {
+            "text": "Package: libgomp1\nInstalled Version: 14.2.0-19\nVulnerability CVE-2026-102010\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-102010](https://avd.aquasec.com/nvd/cve-2026-102010)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pglcorporate-dev/magic-number",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "pglcorporate-dev/magic-number: libgomp1@14.2.0-19"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-95619",
+          "ruleIndex": 1,
+          "level": "warning",
+          "message": {
+            "text": "Package: libgomp1\nInstalled Version: 14.2.0-19\nVulnerability CVE-2026-95619\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-95619](https://avd.aquasec.com/nvd/cve-2026-95619)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pglcorporate-dev/magic-number",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "pglcorporate-dev/magic-number: libgomp1@14.2.0-19"
+              }
+            }
+          ]
+        },
+        {
           "ruleId": "CVE-2018-5709",
-          "ruleIndex": 26,
+          "ruleIndex": 30,
           "level": "note",
           "message": {
             "text": "Package: libgssapi-krb5-2\nInstalled Version: 1.21.3-5+deb13u1\nVulnerability CVE-2018-5709\nSeverity: LOW\nFixed Version: \nLink: [CVE-2018-5709](https://avd.aquasec.com/nvd/cve-2018-5709)"
@@ -2896,7 +3328,7 @@
         },
         {
           "ruleId": "CVE-2024-26458",
-          "ruleIndex": 27,
+          "ruleIndex": 31,
           "level": "note",
           "message": {
             "text": "Package: libgssapi-krb5-2\nInstalled Version: 1.21.3-5+deb13u1\nVulnerability CVE-2024-26458\nSeverity: LOW\nFixed Version: \nLink: [CVE-2024-26458](https://avd.aquasec.com/nvd/cve-2024-26458)"
@@ -2923,7 +3355,7 @@
         },
         {
           "ruleId": "CVE-2024-26461",
-          "ruleIndex": 28,
+          "ruleIndex": 32,
           "level": "note",
           "message": {
             "text": "Package: libgssapi-krb5-2\nInstalled Version: 1.21.3-5+deb13u1\nVulnerability CVE-2024-26461\nSeverity: LOW\nFixed Version: \nLink: [CVE-2024-26461](https://avd.aquasec.com/nvd/cve-2024-26461)"
@@ -2950,7 +3382,7 @@
         },
         {
           "ruleId": "CVE-2026-11850",
-          "ruleIndex": 29,
+          "ruleIndex": 33,
           "level": "note",
           "message": {
             "text": "Package: libgssapi-krb5-2\nInstalled Version: 1.21.3-5+deb13u1\nVulnerability CVE-2026-11850\nSeverity: LOW\nFixed Version: \nLink: [CVE-2026-11850](https://avd.aquasec.com/nvd/cve-2026-11850)"
@@ -2977,7 +3409,7 @@
         },
         {
           "ruleId": "CVE-2018-5709",
-          "ruleIndex": 26,
+          "ruleIndex": 30,
           "level": "note",
           "message": {
             "text": "Package: libk5crypto3\nInstalled Version: 1.21.3-5+deb13u1\nVulnerability CVE-2018-5709\nSeverity: LOW\nFixed Version: \nLink: [CVE-2018-5709](https://avd.aquasec.com/nvd/cve-2018-5709)"
@@ -3004,7 +3436,7 @@
         },
         {
           "ruleId": "CVE-2024-26458",
-          "ruleIndex": 27,
+          "ruleIndex": 31,
           "level": "note",
           "message": {
             "text": "Package: libk5crypto3\nInstalled Version: 1.21.3-5+deb13u1\nVulnerability CVE-2024-26458\nSeverity: LOW\nFixed Version: \nLink: [CVE-2024-26458](https://avd.aquasec.com/nvd/cve-2024-26458)"
@@ -3031,7 +3463,7 @@
         },
         {
           "ruleId": "CVE-2024-26461",
-          "ruleIndex": 28,
+          "ruleIndex": 32,
           "level": "note",
           "message": {
             "text": "Package: libk5crypto3\nInstalled Version: 1.21.3-5+deb13u1\nVulnerability CVE-2024-26461\nSeverity: LOW\nFixed Version: \nLink: [CVE-2024-26461](https://avd.aquasec.com/nvd/cve-2024-26461)"
@@ -3058,7 +3490,7 @@
         },
         {
           "ruleId": "CVE-2026-11850",
-          "ruleIndex": 29,
+          "ruleIndex": 33,
           "level": "note",
           "message": {
             "text": "Package: libk5crypto3\nInstalled Version: 1.21.3-5+deb13u1\nVulnerability CVE-2026-11850\nSeverity: LOW\nFixed Version: \nLink: [CVE-2026-11850](https://avd.aquasec.com/nvd/cve-2026-11850)"
@@ -3085,7 +3517,7 @@
         },
         {
           "ruleId": "CVE-2018-5709",
-          "ruleIndex": 26,
+          "ruleIndex": 30,
           "level": "note",
           "message": {
             "text": "Package: libkrb5-3\nInstalled Version: 1.21.3-5+deb13u1\nVulnerability CVE-2018-5709\nSeverity: LOW\nFixed Version: \nLink: [CVE-2018-5709](https://avd.aquasec.com/nvd/cve-2018-5709)"
@@ -3112,7 +3544,7 @@
         },
         {
           "ruleId": "CVE-2024-26458",
-          "ruleIndex": 27,
+          "ruleIndex": 31,
           "level": "note",
           "message": {
             "text": "Package: libkrb5-3\nInstalled Version: 1.21.3-5+deb13u1\nVulnerability CVE-2024-26458\nSeverity: LOW\nFixed Version: \nLink: [CVE-2024-26458](https://avd.aquasec.com/nvd/cve-2024-26458)"
@@ -3139,7 +3571,7 @@
         },
         {
           "ruleId": "CVE-2024-26461",
-          "ruleIndex": 28,
+          "ruleIndex": 32,
           "level": "note",
           "message": {
             "text": "Package: libkrb5-3\nInstalled Version: 1.21.3-5+deb13u1\nVulnerability CVE-2024-26461\nSeverity: LOW\nFixed Version: \nLink: [CVE-2024-26461](https://avd.aquasec.com/nvd/cve-2024-26461)"
@@ -3166,7 +3598,7 @@
         },
         {
           "ruleId": "CVE-2026-11850",
-          "ruleIndex": 29,
+          "ruleIndex": 33,
           "level": "note",
           "message": {
             "text": "Package: libkrb5-3\nInstalled Version: 1.21.3-5+deb13u1\nVulnerability CVE-2026-11850\nSeverity: LOW\nFixed Version: \nLink: [CVE-2026-11850](https://avd.aquasec.com/nvd/cve-2026-11850)"
@@ -3193,7 +3625,7 @@
         },
         {
           "ruleId": "CVE-2018-5709",
-          "ruleIndex": 26,
+          "ruleIndex": 30,
           "level": "note",
           "message": {
             "text": "Package: libkrb5support0\nInstalled Version: 1.21.3-5+deb13u1\nVulnerability CVE-2018-5709\nSeverity: LOW\nFixed Version: \nLink: [CVE-2018-5709](https://avd.aquasec.com/nvd/cve-2018-5709)"
@@ -3220,7 +3652,7 @@
         },
         {
           "ruleId": "CVE-2024-26458",
-          "ruleIndex": 27,
+          "ruleIndex": 31,
           "level": "note",
           "message": {
             "text": "Package: libkrb5support0\nInstalled Version: 1.21.3-5+deb13u1\nVulnerability CVE-2024-26458\nSeverity: LOW\nFixed Version: \nLink: [CVE-2024-26458](https://avd.aquasec.com/nvd/cve-2024-26458)"
@@ -3247,7 +3679,7 @@
         },
         {
           "ruleId": "CVE-2024-26461",
-          "ruleIndex": 28,
+          "ruleIndex": 32,
           "level": "note",
           "message": {
             "text": "Package: libkrb5support0\nInstalled Version: 1.21.3-5+deb13u1\nVulnerability CVE-2024-26461\nSeverity: LOW\nFixed Version: \nLink: [CVE-2024-26461](https://avd.aquasec.com/nvd/cve-2024-26461)"
@@ -3274,7 +3706,7 @@
         },
         {
           "ruleId": "CVE-2026-11850",
-          "ruleIndex": 29,
+          "ruleIndex": 33,
           "level": "note",
           "message": {
             "text": "Package: libkrb5support0\nInstalled Version: 1.21.3-5+deb13u1\nVulnerability CVE-2026-11850\nSeverity: LOW\nFixed Version: \nLink: [CVE-2026-11850](https://avd.aquasec.com/nvd/cve-2026-11850)"
@@ -3301,7 +3733,7 @@
         },
         {
           "ruleId": "TEMP-1147318-639065",
-          "ruleIndex": 30,
+          "ruleIndex": 34,
           "level": "note",
           "message": {
             "text": "Package: liblzma5\nInstalled Version: 5.8.1-1+deb13u1\nVulnerability TEMP-1147318-639065\nSeverity: UNKNOWN\nFixed Version: \nLink: [TEMP-1147318-639065](https://security-tracker.debian.org/tracker/TEMP-1147318-639065)"
@@ -3328,7 +3760,7 @@
         },
         {
           "ruleId": "CVE-2025-69720",
-          "ruleIndex": 31,
+          "ruleIndex": 35,
           "level": "error",
           "message": {
             "text": "Package: libncursesw6\nInstalled Version: 6.5+20250216-2\nVulnerability CVE-2025-69720\nSeverity: HIGH\nFixed Version: \nLink: [CVE-2025-69720](https://avd.aquasec.com/nvd/cve-2025-69720)"
@@ -3355,7 +3787,7 @@
         },
         {
           "ruleId": "CVE-2025-6141",
-          "ruleIndex": 32,
+          "ruleIndex": 36,
           "level": "note",
           "message": {
             "text": "Package: libncursesw6\nInstalled Version: 6.5+20250216-2\nVulnerability CVE-2025-6141\nSeverity: LOW\nFixed Version: \nLink: [CVE-2025-6141](https://avd.aquasec.com/nvd/cve-2025-6141)"
@@ -3382,7 +3814,7 @@
         },
         {
           "ruleId": "CVE-2026-15308",
-          "ruleIndex": 33,
+          "ruleIndex": 37,
           "level": "error",
           "message": {
             "text": "Package: libpython3.13-minimal\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-15308\nSeverity: HIGH\nFixed Version: \nLink: [CVE-2026-15308](https://avd.aquasec.com/nvd/cve-2026-15308)"
@@ -3408,8 +3840,35 @@
           ]
         },
         {
+          "ruleId": "CVE-2026-19553",
+          "ruleIndex": 38,
+          "level": "error",
+          "message": {
+            "text": "Package: libpython3.13-minimal\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-19553\nSeverity: HIGH\nFixed Version: \nLink: [CVE-2026-19553](https://avd.aquasec.com/nvd/cve-2026-19553)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pglcorporate-dev/magic-number",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "pglcorporate-dev/magic-number: libpython3.13-minimal@3.13.5-2+deb13u5"
+              }
+            }
+          ]
+        },
+        {
           "ruleId": "CVE-2026-7210",
-          "ruleIndex": 34,
+          "ruleIndex": 39,
           "level": "error",
           "message": {
             "text": "Package: libpython3.13-minimal\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-7210\nSeverity: HIGH\nFixed Version: \nLink: [CVE-2026-7210](https://avd.aquasec.com/nvd/cve-2026-7210)"
@@ -3436,7 +3895,7 @@
         },
         {
           "ruleId": "CVE-2026-82049",
-          "ruleIndex": 35,
+          "ruleIndex": 40,
           "level": "error",
           "message": {
             "text": "Package: libpython3.13-minimal\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-82049\nSeverity: HIGH\nFixed Version: \nLink: [CVE-2026-82049](https://avd.aquasec.com/nvd/cve-2026-82049)"
@@ -3463,7 +3922,7 @@
         },
         {
           "ruleId": "CVE-2025-12781",
-          "ruleIndex": 36,
+          "ruleIndex": 41,
           "level": "warning",
           "message": {
             "text": "Package: libpython3.13-minimal\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2025-12781\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2025-12781](https://avd.aquasec.com/nvd/cve-2025-12781)"
@@ -3490,7 +3949,7 @@
         },
         {
           "ruleId": "CVE-2025-15366",
-          "ruleIndex": 37,
+          "ruleIndex": 42,
           "level": "warning",
           "message": {
             "text": "Package: libpython3.13-minimal\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2025-15366\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2025-15366](https://avd.aquasec.com/nvd/cve-2025-15366)"
@@ -3517,7 +3976,7 @@
         },
         {
           "ruleId": "CVE-2025-15367",
-          "ruleIndex": 38,
+          "ruleIndex": 43,
           "level": "warning",
           "message": {
             "text": "Package: libpython3.13-minimal\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2025-15367\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2025-15367](https://avd.aquasec.com/nvd/cve-2025-15367)"
@@ -3543,8 +4002,35 @@
           ]
         },
         {
+          "ruleId": "CVE-2026-12345",
+          "ruleIndex": 44,
+          "level": "warning",
+          "message": {
+            "text": "Package: libpython3.13-minimal\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-12345\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-12345](https://avd.aquasec.com/nvd/cve-2026-12345)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pglcorporate-dev/magic-number",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "pglcorporate-dev/magic-number: libpython3.13-minimal@3.13.5-2+deb13u5"
+              }
+            }
+          ]
+        },
+        {
           "ruleId": "CVE-2026-15806",
-          "ruleIndex": 39,
+          "ruleIndex": 45,
           "level": "warning",
           "message": {
             "text": "Package: libpython3.13-minimal\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-15806\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-15806](https://avd.aquasec.com/nvd/cve-2026-15806)"
@@ -3571,7 +4057,7 @@
         },
         {
           "ruleId": "CVE-2026-17084",
-          "ruleIndex": 40,
+          "ruleIndex": 46,
           "level": "warning",
           "message": {
             "text": "Package: libpython3.13-minimal\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-17084\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-17084](https://avd.aquasec.com/nvd/cve-2026-17084)"
@@ -3598,7 +4084,7 @@
         },
         {
           "ruleId": "CVE-2026-19672",
-          "ruleIndex": 41,
+          "ruleIndex": 47,
           "level": "warning",
           "message": {
             "text": "Package: libpython3.13-minimal\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-19672\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-19672](https://avd.aquasec.com/nvd/cve-2026-19672)"
@@ -3625,7 +4111,7 @@
         },
         {
           "ruleId": "CVE-2026-87910",
-          "ruleIndex": 42,
+          "ruleIndex": 48,
           "level": "warning",
           "message": {
             "text": "Package: libpython3.13-minimal\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-87910\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-87910](https://avd.aquasec.com/nvd/cve-2026-87910)"
@@ -3652,7 +4138,7 @@
         },
         {
           "ruleId": "CVE-2026-12003",
-          "ruleIndex": 43,
+          "ruleIndex": 49,
           "level": "note",
           "message": {
             "text": "Package: libpython3.13-minimal\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-12003\nSeverity: LOW\nFixed Version: \nLink: [CVE-2026-12003](https://avd.aquasec.com/nvd/cve-2026-12003)"
@@ -3679,7 +4165,7 @@
         },
         {
           "ruleId": "CVE-2026-15310",
-          "ruleIndex": 44,
+          "ruleIndex": 50,
           "level": "note",
           "message": {
             "text": "Package: libpython3.13-minimal\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-15310\nSeverity: LOW\nFixed Version: \nLink: [CVE-2026-15310](https://avd.aquasec.com/nvd/cve-2026-15310)"
@@ -3706,7 +4192,7 @@
         },
         {
           "ruleId": "CVE-2026-18503",
-          "ruleIndex": 45,
+          "ruleIndex": 51,
           "level": "note",
           "message": {
             "text": "Package: libpython3.13-minimal\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-18503\nSeverity: LOW\nFixed Version: \nLink: [CVE-2026-18503](https://avd.aquasec.com/nvd/cve-2026-18503)"
@@ -3733,7 +4219,7 @@
         },
         {
           "ruleId": "CVE-2026-3479",
-          "ruleIndex": 46,
+          "ruleIndex": 52,
           "level": "note",
           "message": {
             "text": "Package: libpython3.13-minimal\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-3479\nSeverity: LOW\nFixed Version: \nLink: [CVE-2026-3479](https://avd.aquasec.com/nvd/cve-2026-3479)"
@@ -3759,8 +4245,35 @@
           ]
         },
         {
+          "ruleId": "CVE-2026-19445",
+          "ruleIndex": 53,
+          "level": "note",
+          "message": {
+            "text": "Package: libpython3.13-minimal\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-19445\nSeverity: UNKNOWN\nFixed Version: \nLink: [CVE-2026-19445](https://avd.aquasec.com/nvd/cve-2026-19445)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pglcorporate-dev/magic-number",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "pglcorporate-dev/magic-number: libpython3.13-minimal@3.13.5-2+deb13u5"
+              }
+            }
+          ]
+        },
+        {
           "ruleId": "CVE-2026-15308",
-          "ruleIndex": 33,
+          "ruleIndex": 37,
           "level": "error",
           "message": {
             "text": "Package: libpython3.13-stdlib\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-15308\nSeverity: HIGH\nFixed Version: \nLink: [CVE-2026-15308](https://avd.aquasec.com/nvd/cve-2026-15308)"
@@ -3786,8 +4299,35 @@
           ]
         },
         {
+          "ruleId": "CVE-2026-19553",
+          "ruleIndex": 38,
+          "level": "error",
+          "message": {
+            "text": "Package: libpython3.13-stdlib\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-19553\nSeverity: HIGH\nFixed Version: \nLink: [CVE-2026-19553](https://avd.aquasec.com/nvd/cve-2026-19553)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pglcorporate-dev/magic-number",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "pglcorporate-dev/magic-number: libpython3.13-stdlib@3.13.5-2+deb13u5"
+              }
+            }
+          ]
+        },
+        {
           "ruleId": "CVE-2026-7210",
-          "ruleIndex": 34,
+          "ruleIndex": 39,
           "level": "error",
           "message": {
             "text": "Package: libpython3.13-stdlib\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-7210\nSeverity: HIGH\nFixed Version: \nLink: [CVE-2026-7210](https://avd.aquasec.com/nvd/cve-2026-7210)"
@@ -3814,7 +4354,7 @@
         },
         {
           "ruleId": "CVE-2026-82049",
-          "ruleIndex": 35,
+          "ruleIndex": 40,
           "level": "error",
           "message": {
             "text": "Package: libpython3.13-stdlib\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-82049\nSeverity: HIGH\nFixed Version: \nLink: [CVE-2026-82049](https://avd.aquasec.com/nvd/cve-2026-82049)"
@@ -3841,7 +4381,7 @@
         },
         {
           "ruleId": "CVE-2025-12781",
-          "ruleIndex": 36,
+          "ruleIndex": 41,
           "level": "warning",
           "message": {
             "text": "Package: libpython3.13-stdlib\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2025-12781\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2025-12781](https://avd.aquasec.com/nvd/cve-2025-12781)"
@@ -3868,7 +4408,7 @@
         },
         {
           "ruleId": "CVE-2025-15366",
-          "ruleIndex": 37,
+          "ruleIndex": 42,
           "level": "warning",
           "message": {
             "text": "Package: libpython3.13-stdlib\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2025-15366\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2025-15366](https://avd.aquasec.com/nvd/cve-2025-15366)"
@@ -3895,7 +4435,7 @@
         },
         {
           "ruleId": "CVE-2025-15367",
-          "ruleIndex": 38,
+          "ruleIndex": 43,
           "level": "warning",
           "message": {
             "text": "Package: libpython3.13-stdlib\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2025-15367\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2025-15367](https://avd.aquasec.com/nvd/cve-2025-15367)"
@@ -3921,8 +4461,35 @@
           ]
         },
         {
+          "ruleId": "CVE-2026-12345",
+          "ruleIndex": 44,
+          "level": "warning",
+          "message": {
+            "text": "Package: libpython3.13-stdlib\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-12345\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-12345](https://avd.aquasec.com/nvd/cve-2026-12345)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pglcorporate-dev/magic-number",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "pglcorporate-dev/magic-number: libpython3.13-stdlib@3.13.5-2+deb13u5"
+              }
+            }
+          ]
+        },
+        {
           "ruleId": "CVE-2026-15806",
-          "ruleIndex": 39,
+          "ruleIndex": 45,
           "level": "warning",
           "message": {
             "text": "Package: libpython3.13-stdlib\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-15806\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-15806](https://avd.aquasec.com/nvd/cve-2026-15806)"
@@ -3949,7 +4516,7 @@
         },
         {
           "ruleId": "CVE-2026-17084",
-          "ruleIndex": 40,
+          "ruleIndex": 46,
           "level": "warning",
           "message": {
             "text": "Package: libpython3.13-stdlib\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-17084\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-17084](https://avd.aquasec.com/nvd/cve-2026-17084)"
@@ -3976,7 +4543,7 @@
         },
         {
           "ruleId": "CVE-2026-19672",
-          "ruleIndex": 41,
+          "ruleIndex": 47,
           "level": "warning",
           "message": {
             "text": "Package: libpython3.13-stdlib\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-19672\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-19672](https://avd.aquasec.com/nvd/cve-2026-19672)"
@@ -4003,7 +4570,7 @@
         },
         {
           "ruleId": "CVE-2026-87910",
-          "ruleIndex": 42,
+          "ruleIndex": 48,
           "level": "warning",
           "message": {
             "text": "Package: libpython3.13-stdlib\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-87910\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-87910](https://avd.aquasec.com/nvd/cve-2026-87910)"
@@ -4030,7 +4597,7 @@
         },
         {
           "ruleId": "CVE-2026-12003",
-          "ruleIndex": 43,
+          "ruleIndex": 49,
           "level": "note",
           "message": {
             "text": "Package: libpython3.13-stdlib\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-12003\nSeverity: LOW\nFixed Version: \nLink: [CVE-2026-12003](https://avd.aquasec.com/nvd/cve-2026-12003)"
@@ -4057,7 +4624,7 @@
         },
         {
           "ruleId": "CVE-2026-15310",
-          "ruleIndex": 44,
+          "ruleIndex": 50,
           "level": "note",
           "message": {
             "text": "Package: libpython3.13-stdlib\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-15310\nSeverity: LOW\nFixed Version: \nLink: [CVE-2026-15310](https://avd.aquasec.com/nvd/cve-2026-15310)"
@@ -4084,7 +4651,7 @@
         },
         {
           "ruleId": "CVE-2026-18503",
-          "ruleIndex": 45,
+          "ruleIndex": 51,
           "level": "note",
           "message": {
             "text": "Package: libpython3.13-stdlib\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-18503\nSeverity: LOW\nFixed Version: \nLink: [CVE-2026-18503](https://avd.aquasec.com/nvd/cve-2026-18503)"
@@ -4111,7 +4678,7 @@
         },
         {
           "ruleId": "CVE-2026-3479",
-          "ruleIndex": 46,
+          "ruleIndex": 52,
           "level": "note",
           "message": {
             "text": "Package: libpython3.13-stdlib\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-3479\nSeverity: LOW\nFixed Version: \nLink: [CVE-2026-3479](https://avd.aquasec.com/nvd/cve-2026-3479)"
@@ -4137,8 +4704,35 @@
           ]
         },
         {
+          "ruleId": "CVE-2026-19445",
+          "ruleIndex": 53,
+          "level": "note",
+          "message": {
+            "text": "Package: libpython3.13-stdlib\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-19445\nSeverity: UNKNOWN\nFixed Version: \nLink: [CVE-2026-19445](https://avd.aquasec.com/nvd/cve-2026-19445)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pglcorporate-dev/magic-number",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "pglcorporate-dev/magic-number: libpython3.13-stdlib@3.13.5-2+deb13u5"
+              }
+            }
+          ]
+        },
+        {
           "ruleId": "CVE-2026-50812",
-          "ruleIndex": 47,
+          "ruleIndex": 54,
           "level": "warning",
           "message": {
             "text": "Package: libsqlite3-0\nInstalled Version: 3.46.1-7+deb13u2\nVulnerability CVE-2026-50812\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-50812](https://avd.aquasec.com/nvd/cve-2026-50812)"
@@ -4165,7 +4759,7 @@
         },
         {
           "ruleId": "CVE-2026-50813",
-          "ruleIndex": 48,
+          "ruleIndex": 55,
           "level": "warning",
           "message": {
             "text": "Package: libsqlite3-0\nInstalled Version: 3.46.1-7+deb13u2\nVulnerability CVE-2026-50813\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-50813](https://avd.aquasec.com/nvd/cve-2026-50813)"
@@ -4192,7 +4786,7 @@
         },
         {
           "ruleId": "CVE-2021-45346",
-          "ruleIndex": 49,
+          "ruleIndex": 56,
           "level": "note",
           "message": {
             "text": "Package: libsqlite3-0\nInstalled Version: 3.46.1-7+deb13u2\nVulnerability CVE-2021-45346\nSeverity: LOW\nFixed Version: \nLink: [CVE-2021-45346](https://avd.aquasec.com/nvd/cve-2021-45346)"
@@ -4219,7 +4813,7 @@
         },
         {
           "ruleId": "CVE-2025-70873",
-          "ruleIndex": 50,
+          "ruleIndex": 57,
           "level": "note",
           "message": {
             "text": "Package: libsqlite3-0\nInstalled Version: 3.46.1-7+deb13u2\nVulnerability CVE-2025-70873\nSeverity: LOW\nFixed Version: \nLink: [CVE-2025-70873](https://avd.aquasec.com/nvd/cve-2025-70873)"
@@ -4245,8 +4839,62 @@
           ]
         },
         {
+          "ruleId": "CVE-2026-102010",
+          "ruleIndex": 0,
+          "level": "warning",
+          "message": {
+            "text": "Package: libstdc++6\nInstalled Version: 14.2.0-19\nVulnerability CVE-2026-102010\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-102010](https://avd.aquasec.com/nvd/cve-2026-102010)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pglcorporate-dev/magic-number",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "pglcorporate-dev/magic-number: libstdc++6@14.2.0-19"
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2026-95619",
+          "ruleIndex": 1,
+          "level": "warning",
+          "message": {
+            "text": "Package: libstdc++6\nInstalled Version: 14.2.0-19\nVulnerability CVE-2026-95619\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-95619](https://avd.aquasec.com/nvd/cve-2026-95619)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pglcorporate-dev/magic-number",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "pglcorporate-dev/magic-number: libstdc++6@14.2.0-19"
+              }
+            }
+          ]
+        },
+        {
           "ruleId": "CVE-2025-69720",
-          "ruleIndex": 31,
+          "ruleIndex": 35,
           "level": "error",
           "message": {
             "text": "Package: libtinfo6\nInstalled Version: 6.5+20250216-2\nVulnerability CVE-2025-69720\nSeverity: HIGH\nFixed Version: \nLink: [CVE-2025-69720](https://avd.aquasec.com/nvd/cve-2025-69720)"
@@ -4273,7 +4921,7 @@
         },
         {
           "ruleId": "CVE-2025-6141",
-          "ruleIndex": 32,
+          "ruleIndex": 36,
           "level": "note",
           "message": {
             "text": "Package: libtinfo6\nInstalled Version: 6.5+20250216-2\nVulnerability CVE-2025-6141\nSeverity: LOW\nFixed Version: \nLink: [CVE-2025-6141](https://avd.aquasec.com/nvd/cve-2025-6141)"
@@ -4300,7 +4948,7 @@
         },
         {
           "ruleId": "CVE-2026-76642",
-          "ruleIndex": 51,
+          "ruleIndex": 58,
           "level": "error",
           "message": {
             "text": "Package: libuuid1\nInstalled Version: 2.41.5-0+deb13u1\nVulnerability CVE-2026-76642\nSeverity: HIGH\nFixed Version: \nLink: [CVE-2026-76642](https://avd.aquasec.com/nvd/cve-2026-76642)"
@@ -4327,7 +4975,7 @@
         },
         {
           "ruleId": "CVE-2026-78408",
-          "ruleIndex": 52,
+          "ruleIndex": 59,
           "level": "error",
           "message": {
             "text": "Package: libuuid1\nInstalled Version: 2.41.5-0+deb13u1\nVulnerability CVE-2026-78408\nSeverity: HIGH\nFixed Version: \nLink: [CVE-2026-78408](https://avd.aquasec.com/nvd/cve-2026-78408)"
@@ -4354,7 +5002,7 @@
         },
         {
           "ruleId": "CVE-2026-78409",
-          "ruleIndex": 53,
+          "ruleIndex": 60,
           "level": "error",
           "message": {
             "text": "Package: libuuid1\nInstalled Version: 2.41.5-0+deb13u1\nVulnerability CVE-2026-78409\nSeverity: HIGH\nFixed Version: \nLink: [CVE-2026-78409](https://avd.aquasec.com/nvd/cve-2026-78409)"
@@ -4381,7 +5029,7 @@
         },
         {
           "ruleId": "CVE-2026-78410",
-          "ruleIndex": 54,
+          "ruleIndex": 61,
           "level": "error",
           "message": {
             "text": "Package: libuuid1\nInstalled Version: 2.41.5-0+deb13u1\nVulnerability CVE-2026-78410\nSeverity: HIGH\nFixed Version: \nLink: [CVE-2026-78410](https://avd.aquasec.com/nvd/cve-2026-78410)"
@@ -4408,7 +5056,7 @@
         },
         {
           "ruleId": "CVE-2026-3184",
-          "ruleIndex": 55,
+          "ruleIndex": 62,
           "level": "warning",
           "message": {
             "text": "Package: libuuid1\nInstalled Version: 2.41.5-0+deb13u1\nVulnerability CVE-2026-3184\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-3184](https://avd.aquasec.com/nvd/cve-2026-3184)"
@@ -4435,7 +5083,7 @@
         },
         {
           "ruleId": "CVE-2022-0563",
-          "ruleIndex": 56,
+          "ruleIndex": 63,
           "level": "note",
           "message": {
             "text": "Package: libuuid1\nInstalled Version: 2.41.5-0+deb13u1\nVulnerability CVE-2022-0563\nSeverity: LOW\nFixed Version: \nLink: [CVE-2022-0563](https://avd.aquasec.com/nvd/cve-2022-0563)"
@@ -4462,7 +5110,7 @@
         },
         {
           "ruleId": "CVE-2026-15308",
-          "ruleIndex": 33,
+          "ruleIndex": 37,
           "level": "error",
           "message": {
             "text": "Package: python3.13-minimal\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-15308\nSeverity: HIGH\nFixed Version: \nLink: [CVE-2026-15308](https://avd.aquasec.com/nvd/cve-2026-15308)"
@@ -4488,8 +5136,35 @@
           ]
         },
         {
+          "ruleId": "CVE-2026-19553",
+          "ruleIndex": 38,
+          "level": "error",
+          "message": {
+            "text": "Package: python3.13-minimal\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-19553\nSeverity: HIGH\nFixed Version: \nLink: [CVE-2026-19553](https://avd.aquasec.com/nvd/cve-2026-19553)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pglcorporate-dev/magic-number",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "pglcorporate-dev/magic-number: python3.13-minimal@3.13.5-2+deb13u5"
+              }
+            }
+          ]
+        },
+        {
           "ruleId": "CVE-2026-7210",
-          "ruleIndex": 34,
+          "ruleIndex": 39,
           "level": "error",
           "message": {
             "text": "Package: python3.13-minimal\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-7210\nSeverity: HIGH\nFixed Version: \nLink: [CVE-2026-7210](https://avd.aquasec.com/nvd/cve-2026-7210)"
@@ -4516,7 +5191,7 @@
         },
         {
           "ruleId": "CVE-2026-82049",
-          "ruleIndex": 35,
+          "ruleIndex": 40,
           "level": "error",
           "message": {
             "text": "Package: python3.13-minimal\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-82049\nSeverity: HIGH\nFixed Version: \nLink: [CVE-2026-82049](https://avd.aquasec.com/nvd/cve-2026-82049)"
@@ -4543,7 +5218,7 @@
         },
         {
           "ruleId": "CVE-2025-12781",
-          "ruleIndex": 36,
+          "ruleIndex": 41,
           "level": "warning",
           "message": {
             "text": "Package: python3.13-minimal\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2025-12781\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2025-12781](https://avd.aquasec.com/nvd/cve-2025-12781)"
@@ -4570,7 +5245,7 @@
         },
         {
           "ruleId": "CVE-2025-15366",
-          "ruleIndex": 37,
+          "ruleIndex": 42,
           "level": "warning",
           "message": {
             "text": "Package: python3.13-minimal\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2025-15366\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2025-15366](https://avd.aquasec.com/nvd/cve-2025-15366)"
@@ -4597,7 +5272,7 @@
         },
         {
           "ruleId": "CVE-2025-15367",
-          "ruleIndex": 38,
+          "ruleIndex": 43,
           "level": "warning",
           "message": {
             "text": "Package: python3.13-minimal\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2025-15367\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2025-15367](https://avd.aquasec.com/nvd/cve-2025-15367)"
@@ -4623,8 +5298,35 @@
           ]
         },
         {
+          "ruleId": "CVE-2026-12345",
+          "ruleIndex": 44,
+          "level": "warning",
+          "message": {
+            "text": "Package: python3.13-minimal\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-12345\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-12345](https://avd.aquasec.com/nvd/cve-2026-12345)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pglcorporate-dev/magic-number",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "pglcorporate-dev/magic-number: python3.13-minimal@3.13.5-2+deb13u5"
+              }
+            }
+          ]
+        },
+        {
           "ruleId": "CVE-2026-15806",
-          "ruleIndex": 39,
+          "ruleIndex": 45,
           "level": "warning",
           "message": {
             "text": "Package: python3.13-minimal\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-15806\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-15806](https://avd.aquasec.com/nvd/cve-2026-15806)"
@@ -4651,7 +5353,7 @@
         },
         {
           "ruleId": "CVE-2026-17084",
-          "ruleIndex": 40,
+          "ruleIndex": 46,
           "level": "warning",
           "message": {
             "text": "Package: python3.13-minimal\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-17084\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-17084](https://avd.aquasec.com/nvd/cve-2026-17084)"
@@ -4678,7 +5380,7 @@
         },
         {
           "ruleId": "CVE-2026-19672",
-          "ruleIndex": 41,
+          "ruleIndex": 47,
           "level": "warning",
           "message": {
             "text": "Package: python3.13-minimal\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-19672\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-19672](https://avd.aquasec.com/nvd/cve-2026-19672)"
@@ -4705,7 +5407,7 @@
         },
         {
           "ruleId": "CVE-2026-87910",
-          "ruleIndex": 42,
+          "ruleIndex": 48,
           "level": "warning",
           "message": {
             "text": "Package: python3.13-minimal\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-87910\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-87910](https://avd.aquasec.com/nvd/cve-2026-87910)"
@@ -4732,7 +5434,7 @@
         },
         {
           "ruleId": "CVE-2026-12003",
-          "ruleIndex": 43,
+          "ruleIndex": 49,
           "level": "note",
           "message": {
             "text": "Package: python3.13-minimal\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-12003\nSeverity: LOW\nFixed Version: \nLink: [CVE-2026-12003](https://avd.aquasec.com/nvd/cve-2026-12003)"
@@ -4759,7 +5461,7 @@
         },
         {
           "ruleId": "CVE-2026-15310",
-          "ruleIndex": 44,
+          "ruleIndex": 50,
           "level": "note",
           "message": {
             "text": "Package: python3.13-minimal\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-15310\nSeverity: LOW\nFixed Version: \nLink: [CVE-2026-15310](https://avd.aquasec.com/nvd/cve-2026-15310)"
@@ -4786,7 +5488,7 @@
         },
         {
           "ruleId": "CVE-2026-18503",
-          "ruleIndex": 45,
+          "ruleIndex": 51,
           "level": "note",
           "message": {
             "text": "Package: python3.13-minimal\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-18503\nSeverity: LOW\nFixed Version: \nLink: [CVE-2026-18503](https://avd.aquasec.com/nvd/cve-2026-18503)"
@@ -4813,7 +5515,7 @@
         },
         {
           "ruleId": "CVE-2026-3479",
-          "ruleIndex": 46,
+          "ruleIndex": 52,
           "level": "note",
           "message": {
             "text": "Package: python3.13-minimal\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-3479\nSeverity: LOW\nFixed Version: \nLink: [CVE-2026-3479](https://avd.aquasec.com/nvd/cve-2026-3479)"
@@ -4839,8 +5541,35 @@
           ]
         },
         {
+          "ruleId": "CVE-2026-19445",
+          "ruleIndex": 53,
+          "level": "note",
+          "message": {
+            "text": "Package: python3.13-minimal\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-19445\nSeverity: UNKNOWN\nFixed Version: \nLink: [CVE-2026-19445](https://avd.aquasec.com/nvd/cve-2026-19445)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pglcorporate-dev/magic-number",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "pglcorporate-dev/magic-number: python3.13-minimal@3.13.5-2+deb13u5"
+              }
+            }
+          ]
+        },
+        {
           "ruleId": "CVE-2026-15308",
-          "ruleIndex": 33,
+          "ruleIndex": 37,
           "level": "error",
           "message": {
             "text": "Package: python3.13-venv\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-15308\nSeverity: HIGH\nFixed Version: \nLink: [CVE-2026-15308](https://avd.aquasec.com/nvd/cve-2026-15308)"
@@ -4866,8 +5595,35 @@
           ]
         },
         {
+          "ruleId": "CVE-2026-19553",
+          "ruleIndex": 38,
+          "level": "error",
+          "message": {
+            "text": "Package: python3.13-venv\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-19553\nSeverity: HIGH\nFixed Version: \nLink: [CVE-2026-19553](https://avd.aquasec.com/nvd/cve-2026-19553)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pglcorporate-dev/magic-number",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "pglcorporate-dev/magic-number: python3.13-venv@3.13.5-2+deb13u5"
+              }
+            }
+          ]
+        },
+        {
           "ruleId": "CVE-2026-7210",
-          "ruleIndex": 34,
+          "ruleIndex": 39,
           "level": "error",
           "message": {
             "text": "Package: python3.13-venv\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-7210\nSeverity: HIGH\nFixed Version: \nLink: [CVE-2026-7210](https://avd.aquasec.com/nvd/cve-2026-7210)"
@@ -4894,7 +5650,7 @@
         },
         {
           "ruleId": "CVE-2026-82049",
-          "ruleIndex": 35,
+          "ruleIndex": 40,
           "level": "error",
           "message": {
             "text": "Package: python3.13-venv\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-82049\nSeverity: HIGH\nFixed Version: \nLink: [CVE-2026-82049](https://avd.aquasec.com/nvd/cve-2026-82049)"
@@ -4921,7 +5677,7 @@
         },
         {
           "ruleId": "CVE-2025-12781",
-          "ruleIndex": 36,
+          "ruleIndex": 41,
           "level": "warning",
           "message": {
             "text": "Package: python3.13-venv\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2025-12781\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2025-12781](https://avd.aquasec.com/nvd/cve-2025-12781)"
@@ -4948,7 +5704,7 @@
         },
         {
           "ruleId": "CVE-2025-15366",
-          "ruleIndex": 37,
+          "ruleIndex": 42,
           "level": "warning",
           "message": {
             "text": "Package: python3.13-venv\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2025-15366\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2025-15366](https://avd.aquasec.com/nvd/cve-2025-15366)"
@@ -4975,7 +5731,7 @@
         },
         {
           "ruleId": "CVE-2025-15367",
-          "ruleIndex": 38,
+          "ruleIndex": 43,
           "level": "warning",
           "message": {
             "text": "Package: python3.13-venv\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2025-15367\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2025-15367](https://avd.aquasec.com/nvd/cve-2025-15367)"
@@ -5001,8 +5757,35 @@
           ]
         },
         {
+          "ruleId": "CVE-2026-12345",
+          "ruleIndex": 44,
+          "level": "warning",
+          "message": {
+            "text": "Package: python3.13-venv\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-12345\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-12345](https://avd.aquasec.com/nvd/cve-2026-12345)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pglcorporate-dev/magic-number",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "pglcorporate-dev/magic-number: python3.13-venv@3.13.5-2+deb13u5"
+              }
+            }
+          ]
+        },
+        {
           "ruleId": "CVE-2026-15806",
-          "ruleIndex": 39,
+          "ruleIndex": 45,
           "level": "warning",
           "message": {
             "text": "Package: python3.13-venv\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-15806\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-15806](https://avd.aquasec.com/nvd/cve-2026-15806)"
@@ -5029,7 +5812,7 @@
         },
         {
           "ruleId": "CVE-2026-17084",
-          "ruleIndex": 40,
+          "ruleIndex": 46,
           "level": "warning",
           "message": {
             "text": "Package: python3.13-venv\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-17084\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-17084](https://avd.aquasec.com/nvd/cve-2026-17084)"
@@ -5056,7 +5839,7 @@
         },
         {
           "ruleId": "CVE-2026-19672",
-          "ruleIndex": 41,
+          "ruleIndex": 47,
           "level": "warning",
           "message": {
             "text": "Package: python3.13-venv\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-19672\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-19672](https://avd.aquasec.com/nvd/cve-2026-19672)"
@@ -5083,7 +5866,7 @@
         },
         {
           "ruleId": "CVE-2026-87910",
-          "ruleIndex": 42,
+          "ruleIndex": 48,
           "level": "warning",
           "message": {
             "text": "Package: python3.13-venv\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-87910\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-87910](https://avd.aquasec.com/nvd/cve-2026-87910)"
@@ -5110,7 +5893,7 @@
         },
         {
           "ruleId": "CVE-2026-12003",
-          "ruleIndex": 43,
+          "ruleIndex": 49,
           "level": "note",
           "message": {
             "text": "Package: python3.13-venv\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-12003\nSeverity: LOW\nFixed Version: \nLink: [CVE-2026-12003](https://avd.aquasec.com/nvd/cve-2026-12003)"
@@ -5137,7 +5920,7 @@
         },
         {
           "ruleId": "CVE-2026-15310",
-          "ruleIndex": 44,
+          "ruleIndex": 50,
           "level": "note",
           "message": {
             "text": "Package: python3.13-venv\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-15310\nSeverity: LOW\nFixed Version: \nLink: [CVE-2026-15310](https://avd.aquasec.com/nvd/cve-2026-15310)"
@@ -5164,7 +5947,7 @@
         },
         {
           "ruleId": "CVE-2026-18503",
-          "ruleIndex": 45,
+          "ruleIndex": 51,
           "level": "note",
           "message": {
             "text": "Package: python3.13-venv\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-18503\nSeverity: LOW\nFixed Version: \nLink: [CVE-2026-18503](https://avd.aquasec.com/nvd/cve-2026-18503)"
@@ -5191,7 +5974,7 @@
         },
         {
           "ruleId": "CVE-2026-3479",
-          "ruleIndex": 46,
+          "ruleIndex": 52,
           "level": "note",
           "message": {
             "text": "Package: python3.13-venv\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-3479\nSeverity: LOW\nFixed Version: \nLink: [CVE-2026-3479](https://avd.aquasec.com/nvd/cve-2026-3479)"
@@ -5217,8 +6000,35 @@
           ]
         },
         {
+          "ruleId": "CVE-2026-19445",
+          "ruleIndex": 53,
+          "level": "note",
+          "message": {
+            "text": "Package: python3.13-venv\nInstalled Version: 3.13.5-2+deb13u5\nVulnerability CVE-2026-19445\nSeverity: UNKNOWN\nFixed Version: \nLink: [CVE-2026-19445](https://avd.aquasec.com/nvd/cve-2026-19445)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pglcorporate-dev/magic-number",
+                  "uriBaseId": "ROOTPATH"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1,
+                  "endLine": 1,
+                  "endColumn": 1
+                }
+              },
+              "message": {
+                "text": "pglcorporate-dev/magic-number: python3.13-venv@3.13.5-2+deb13u5"
+              }
+            }
+          ]
+        },
+        {
           "ruleId": "CVE-2026-27171",
-          "ruleIndex": 57,
+          "ruleIndex": 64,
           "level": "warning",
           "message": {
             "text": "Package: zlib1g\nInstalled Version: 1:1.3.dfsg+really1.3.1-1+b1\nVulnerability CVE-2026-27171\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-27171](https://avd.aquasec.com/nvd/cve-2026-27171)"
@@ -5245,7 +6055,7 @@
         },
         {
           "ruleId": "CVE-2026-85091",
-          "ruleIndex": 58,
+          "ruleIndex": 65,
           "level": "warning",
           "message": {
             "text": "Package: zlib1g\nInstalled Version: 1:1.3.dfsg+really1.3.1-1+b1\nVulnerability CVE-2026-85091\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2026-85091](https://avd.aquasec.com/nvd/cve-2026-85091)"
@@ -5273,13 +6083,13 @@
       ],
       "columnKind": "utf16CodeUnits",
       "properties": {
-        "imageID": "sha256:c27e4825704b1a1b2b565dc709b85843a82efebe55559546e32859a6b39b4c42",
-        "imageName": "ghcr.io/pglcorporate-dev/magic-number:765282d",
+        "imageID": "sha256:29d43627c8ac77b42bdc7b611fec3ff699650f321a12c471636a1f906a6aaed5",
+        "imageName": "ghcr.io/pglcorporate-dev/magic-number:220f7a8",
         "repoDigests": [
-          "ghcr.io/pglcorporate-dev/magic-number@sha256:c899e2caaa182a2c33c96db1bd6b3e69f3c2029c7a69d580c8baefd585f5739f"
+          "ghcr.io/pglcorporate-dev/magic-number@sha256:32e1c18e91ee0f7cab1055928b2d19c5180284740a381bc3b4fd4e9fe33f572c"
         ],
         "repoTags": [
-          "ghcr.io/pglcorporate-dev/magic-number:765282d",
+          "ghcr.io/pglcorporate-dev/magic-number:220f7a8",
           "ghcr.io/pglcorporate-dev/magic-number:latest"
         ]
       }
